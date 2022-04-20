@@ -14,9 +14,9 @@ public class RatingEntity {
     public RatingEntity() {
     }
 
-    public RatingEntity(String moodysRating, String sandPRating, String fitchRating, Integer orderNumber) {
+    public RatingEntity(String moodysRating, String sandPrating, String fitchRating, Integer orderNumber) {
         this.moodysRating = moodysRating;
-        this.sandPRating = sandPRating;
+        this.sandPrating = sandPrating;
         this.fitchRating = fitchRating;
         this.orderNumber = orderNumber;
     }
@@ -26,7 +26,7 @@ public class RatingEntity {
     private Integer id;
 
     private String moodysRating;
-    private String sandPRating;
+    private String sandPrating;
     private String fitchRating;
     private Integer orderNumber;
 

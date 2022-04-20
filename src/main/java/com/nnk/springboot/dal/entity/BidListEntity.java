@@ -23,7 +23,7 @@ public class BidListEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Integer BidListId;
+    private Integer bidListId;
 
     private String account;
     private String type;

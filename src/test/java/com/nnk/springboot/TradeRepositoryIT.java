@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TradeEntityTests {
+public class TradeRepositoryIT {
 
 	@Autowired
 	private TradeRepository tradeRepository;

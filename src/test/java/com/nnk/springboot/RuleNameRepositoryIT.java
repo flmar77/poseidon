@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RuleTests {
+public class RuleNameRepositoryIT {
 
 	@Autowired
 	private RuleNameRepository ruleNameRepository;
