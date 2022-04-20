@@ -1,7 +1,7 @@
 package com.nnk.springboot;
 
-import com.nnk.springboot.domain.RuleName;
-import com.nnk.springboot.repositories.RuleNameRepository;
+import com.nnk.springboot.dal.entity.RuleName;
+import com.nnk.springboot.dal.repository.RuleNameRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

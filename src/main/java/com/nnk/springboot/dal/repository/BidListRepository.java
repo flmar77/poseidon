@@ -1,6 +1,6 @@
-package com.nnk.springboot.repositories;
+package com.nnk.springboot.dal.repository;
 
-import com.nnk.springboot.domain.BidList;
+import com.nnk.springboot.dal.entity.BidList;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

@@ -1,7 +1,7 @@
-package com.nnk.springboot.controllers;
+package com.nnk.springboot.web.controller;
 
-import com.nnk.springboot.domain.User;
-import com.nnk.springboot.repositories.UserRepository;
+import com.nnk.springboot.dal.entity.User;
+import com.nnk.springboot.dal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;

@@ -1,7 +1,7 @@
 package com.nnk.springboot;
 
-import com.nnk.springboot.domain.Rating;
-import com.nnk.springboot.repositories.RatingRepository;
+import com.nnk.springboot.dal.entity.Rating;
+import com.nnk.springboot.dal.repository.RatingRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

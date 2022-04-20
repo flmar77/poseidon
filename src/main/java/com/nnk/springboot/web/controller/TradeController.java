@@ -1,6 +1,6 @@
-package com.nnk.springboot.controllers;
+package com.nnk.springboot.web.controller;
 
-import com.nnk.springboot.domain.Trade;
+import com.nnk.springboot.dal.entity.Trade;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

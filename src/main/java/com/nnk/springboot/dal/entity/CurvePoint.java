@@ -1,4 +1,4 @@
-package com.nnk.springboot.domain;
+package com.nnk.springboot.dal.entity;
 
 import org.hibernate.validator.constraints.Length;
 
