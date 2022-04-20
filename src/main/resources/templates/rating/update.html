@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://thymeleaf.org"
+      lang="en-us">
 <head>
-	<meta charset="utf-8"/>
-	<title>Home</title>
-	<link rel="stylesheet" href="../../css/bootstrap.min.css" >
+    <meta charset="utf-8"/>
+    <title>Home</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
 
-	<div class="row">
-		<h2>Update Rating</h2>
-	</div>
+    <div class="row">
+        <h2>Update Rating</h2>
+    </div>
 
-	<div class="row">
-		<form action="#" th:action="@{/ratingEntity/update/{id}(id=${ratingEntity.id})}" th:object="${ratingEntity}" method="post" class="form-horizontal" style="width: 100%">
-			<!--
-			TODO: Create a form to edit the values of Rating, there are 2 buttons: Update data and Cancel to the Rating
-			 -->
-		</form>
-	</div>
+    <div class="row">
+        <form action="#" th:action="@{/ratingEntity/update/{id}(id=${ratingEntity.id})}" th:object="${ratingEntity}"
+              method="post" class="form-horizontal" style="width: 100%">
+            <!--
+            TODO: Create a form to edit the values of Rating, there are 2 buttons: Update data and Cancel to the Rating
+             -->
+        </form>
+    </div>
 
 </div>
 </body>
