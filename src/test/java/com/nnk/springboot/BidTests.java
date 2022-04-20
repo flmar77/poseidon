@@ -1,6 +1,6 @@
 package com.nnk.springboot;
 
-import com.nnk.springboot.dal.entity.BidList;
+import com.nnk.springboot.dal.entity.BidListEntity;
 import com.nnk.springboot.dal.repository.BidListRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,7 +21,7 @@ public class BidTests {
 
 	@Test
 	public void bidListTest() {
-		BidList bid = new BidList("Account Test", "Type Test", 10d);
+		BidListEntity bid = new BidListEntity("Account Test", "Type Test", 10d);
 
 		// Save
 		bid = bidListRepository.save(bid);
@@ -34,13 +34,13 @@ public class BidTests {
 		Assert.assertEquals(bid.getBidQuantity(), 20d, 20d);
 
 		// Find
-		List<BidList> listResult = bidListRepository.findAll();
+		List<BidListEntity> listResult = bidListRepository.findAll();
 		Assert.assertTrue(listResult.size() > 0);
 
 		// Delete
 		Integer id = bid.getBidListId();
 		bidListRepository.delete(bid);
-		Optional<BidList> bidList = bidListRepository.findById(id);
+		Optional<BidListEntity> bidList = bidListRepository.findById(id);
 		Assert.assertFalse(bidList.isPresent());
 	}
 }

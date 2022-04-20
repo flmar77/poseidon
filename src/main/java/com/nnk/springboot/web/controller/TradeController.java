@@ -1,6 +1,6 @@
 package com.nnk.springboot.web.controller;
 
-import com.nnk.springboot.dal.entity.Trade;
+import com.nnk.springboot.dal.entity.TradeEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,12 +23,12 @@ public class TradeController {
     }
 
     @GetMapping("/trade/add")
-    public String addUser(Trade bid) {
+    public String addUser(TradeEntity bid) {
         return "trade/add";
     }
 
     @PostMapping("/trade/validate")
-    public String validate(@Valid Trade trade, BindingResult result, Model model) {
+    public String validate(@Valid TradeEntity tradeEntity, BindingResult result, Model model) {
         // TODO: check data valid and save to db, after saving return Trade list
         return "trade/add";
     }
@@ -40,7 +40,7 @@ public class TradeController {
     }
 
     @PostMapping("/trade/update/{id}")
-    public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade,
+    public String updateTrade(@PathVariable("id") Integer id, @Valid TradeEntity tradeEntity,
                              BindingResult result, Model model) {
         // TODO: check required fields, if valid call service to update Trade and return Trade list
         return "redirect:/trade/list";

@@ -1,8 +1,8 @@
 package com.nnk.springboot.dal.repository;
 
-import com.nnk.springboot.dal.entity.Trade;
+import com.nnk.springboot.dal.entity.TradeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface TradeRepository extends JpaRepository<Trade, Integer> {
+public interface TradeRepository extends JpaRepository<TradeEntity, Integer> {
 }

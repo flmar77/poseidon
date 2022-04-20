@@ -1,6 +1,6 @@
 package com.nnk.springboot.web.controller;
 
-import com.nnk.springboot.dal.entity.BidList;
+import com.nnk.springboot.dal.entity.BidListEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,12 +24,12 @@ public class BidListController {
     }
 
     @GetMapping("/bidList/add")
-    public String addBidForm(BidList bid) {
+    public String addBidForm(BidListEntity bid) {
         return "bidList/add";
     }
 
     @PostMapping("/bidList/validate")
-    public String validate(@Valid BidList bid, BindingResult result, Model model) {
+    public String validate(@Valid BidListEntity bid, BindingResult result, Model model) {
         // TODO: check data valid and save to db, after saving return bid list
         return "bidList/add";
     }
@@ -41,7 +41,7 @@ public class BidListController {
     }
 
     @PostMapping("/bidList/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList,
+    public String updateBid(@PathVariable("id") Integer id, @Valid BidListEntity bidListEntity,
                              BindingResult result, Model model) {
         // TODO: check required fields, if valid call service to update Bid and return list Bid
         return "redirect:/bidList/list";

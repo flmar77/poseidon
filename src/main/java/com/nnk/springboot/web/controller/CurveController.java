@@ -1,6 +1,6 @@
 package com.nnk.springboot.web.controller;
 
-import com.nnk.springboot.dal.entity.CurvePoint;
+import com.nnk.springboot.dal.entity.CurvePointEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,12 +23,12 @@ public class CurveController {
     }
 
     @GetMapping("/curvePoint/add")
-    public String addBidForm(CurvePoint bid) {
+    public String addBidForm(CurvePointEntity bid) {
         return "curvePoint/add";
     }
 
     @PostMapping("/curvePoint/validate")
-    public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
+    public String validate(@Valid CurvePointEntity curvePointEntity, BindingResult result, Model model) {
         // TODO: check data valid and save to db, after saving return Curve list
         return "curvePoint/add";
     }
@@ -40,7 +40,7 @@ public class CurveController {
     }
 
     @PostMapping("/curvePoint/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint,
+    public String updateBid(@PathVariable("id") Integer id, @Valid CurvePointEntity curvePointEntity,
                              BindingResult result, Model model) {
         // TODO: check required fields, if valid call service to update Curve and return Curve list
         return "redirect:/curvePoint/list";

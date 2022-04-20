@@ -4,28 +4,36 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
-
 
 @Getter
 @Setter
 @Entity
-@Table(name = "trade")
-public class Trade {
+@Table(name = "bidlist")
+public class BidListEntity {
+
+    public BidListEntity() {
+    }
+
+    public BidListEntity(String account, String type, Double bidQuantity) {
+        this.account = account;
+        this.type = type;
+        this.bidQuantity = bidQuantity;
+    }
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Integer tradeId;
+    private Integer BidListId;
 
     private String account;
     private String type;
-    private Double buyQuantity;
-    private Double sellQuantity;
-    private Double buyPrice;
-    private Double sellPrice;
+    private Double bidQuantity;
+    private Double askQuantity;
+    private Double bid;
+    private Double ask;
     private String benchmark;
-    private Timestamp tradeDate;
+    private Timestamp bidListDate;
+    private String commentary;
     private String security;
     private String status;
     private String trader;

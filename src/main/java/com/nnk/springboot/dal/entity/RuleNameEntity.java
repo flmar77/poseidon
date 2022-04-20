@@ -4,14 +4,24 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.sql.Timestamp;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "rulename")
-public class RuleName {
+public class RuleNameEntity {
+
+    public RuleNameEntity() {
+    }
+
+    public RuleNameEntity(String name, String description, String json, String template, String sqlStr, String sqlPart) {
+        this.name = name;
+        this.description = description;
+        this.json = json;
+        this.template = template;
+        this.sqlStr = sqlStr;
+        this.sqlPart = sqlPart;
+    }
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -23,4 +33,5 @@ public class RuleName {
     private String template;
     private String sqlStr;
     private String sqlPart;
+
 }

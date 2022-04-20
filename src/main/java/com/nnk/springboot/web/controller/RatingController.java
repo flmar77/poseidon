@@ -1,6 +1,6 @@
 package com.nnk.springboot.web.controller;
 
-import com.nnk.springboot.dal.entity.Rating;
+import com.nnk.springboot.dal.entity.RatingEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,12 +23,12 @@ public class RatingController {
     }
 
     @GetMapping("/rating/add")
-    public String addRatingForm(Rating rating) {
+    public String addRatingForm(RatingEntity ratingEntity) {
         return "rating/add";
     }
 
     @PostMapping("/rating/validate")
-    public String validate(@Valid Rating rating, BindingResult result, Model model) {
+    public String validate(@Valid RatingEntity ratingEntity, BindingResult result, Model model) {
         // TODO: check data valid and save to db, after saving return Rating list
         return "rating/add";
     }
@@ -40,7 +40,7 @@ public class RatingController {
     }
 
     @PostMapping("/rating/update/{id}")
-    public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating,
+    public String updateRating(@PathVariable("id") Integer id, @Valid RatingEntity ratingEntity,
                              BindingResult result, Model model) {
         // TODO: check required fields, if valid call service to update Rating and return Rating list
         return "redirect:/rating/list";

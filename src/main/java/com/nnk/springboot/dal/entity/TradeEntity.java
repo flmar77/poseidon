@@ -2,33 +2,37 @@ package com.nnk.springboot.dal.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Required;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
-import java.sql.Date;
 import java.sql.Timestamp;
+
 
 @Getter
 @Setter
 @Entity
-@Table(name = "bidlist")
-public class BidList {
+@Table(name = "trade")
+public class TradeEntity {
+
+    public TradeEntity() {
+    }
+
+    public TradeEntity(String account, String type) {
+        this.account = account;
+        this.type = type;
+    }
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Integer BidListId;
+    private Integer tradeId;
 
     private String account;
     private String type;
-    private Double bidQuantity;
-    private Double askQuantity;
-    private Double bid;
-    private Double ask;
+    private Double buyQuantity;
+    private Double sellQuantity;
+    private Double buyPrice;
+    private Double sellPrice;
     private String benchmark;
-    private Timestamp bidListDate;
-    private String commentary;
+    private Timestamp tradeDate;
     private String security;
     private String status;
     private String trader;
@@ -41,4 +45,5 @@ public class BidList {
     private String dealType;
     private String sourceListId;
     private String side;
+
 }
