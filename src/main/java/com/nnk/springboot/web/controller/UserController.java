@@ -2,7 +2,9 @@ package com.nnk.springboot.web.controller;
 
 import com.nnk.springboot.dal.entity.UserEntity;
 import com.nnk.springboot.dal.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,13 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 
+@Slf4j
 @Controller
 public class UserController {
     @Autowired
     private UserRepository userRepository;
 
     @GetMapping("/user/home")
-    public String userHome() {
+    public String userHome(Authentication authentication) {
+        log.debug("get /user/home as : " + authentication.getName());
         return "/user/home";
     }
 

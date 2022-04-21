@@ -1,5 +1,6 @@
 package com.nnk.springboot.configuration;
 
+import com.nnk.springboot.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,12 +16,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UserService userService;
+
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("admin")
-                .password("$2y$10$.QARlaWrtFpc3Y6rvmmEGeLT57OOTrBHzldamnpCc4drHI7EWzu4u")
-                .roles("ADMIN");
+        auth.userDetailsService(userService)
+                .passwordEncoder(passwordEncoder);
     }
 
     @Override
@@ -29,6 +31,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login*").permitAll()
+                .antMatchers(("/user/add")).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

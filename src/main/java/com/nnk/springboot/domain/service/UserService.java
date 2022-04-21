@@ -28,8 +28,6 @@ public class UserService implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(userEntity.getRole()));
 
-        System.out.println(userEntity.getUserName() + "/" + userEntity.getPassword() + "/" + userEntity.getRole());
-
         return new User(
                 userEntity.getUserName(),
                 userEntity.getPassword(),

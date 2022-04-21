@@ -1,23 +1,17 @@
 package com.nnk.springboot.web.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
+@Slf4j
 @Controller
-public class HomeController
-{
-	@RequestMapping("/")
-	public String home(Model model)
-	{
-		return "home";
-	}
+public class HomeController {
 
-	@RequestMapping("/admin/home")
-	public String adminHome(Model model)
-	{
-		return "redirect:/bidList/list";
-	}
-
+    @GetMapping("/")
+    public String home() {
+        log.debug("get home");
+        return "home";
+    }
 
 }
