@@ -23,8 +23,9 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping("/user/home")
-    public String userHome(Authentication authentication) {
+    public String userHome(Authentication authentication, Model model) {
         log.debug("get /user/home as : " + authentication.getName());
+        model.addAttribute("username", authentication.getName());
         return "/user/home";
     }
 
