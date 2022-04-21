@@ -30,14 +30,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/login*").permitAll()
+                .antMatchers("/log*").permitAll()
                 .antMatchers(("/user/add")).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .failureUrl("/login-error")
-                .defaultSuccessUrl("/user/home");
+                .defaultSuccessUrl("/user/home")
+                .and()
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/logout"));
     }
 
 }

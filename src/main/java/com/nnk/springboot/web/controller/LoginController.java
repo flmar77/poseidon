@@ -16,8 +16,14 @@ public class LoginController {
     }
 
     @GetMapping("/login-error")
-    public String visitorLoginError(RedirectAttributes redirectAttributes) {
+    public String loginError(RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("loginError", true);
+        return "redirect:/login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("loginLogout", true);
         return "redirect:/login";
     }
 

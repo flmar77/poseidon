@@ -25,6 +25,7 @@
         <div class="text-center">
             <h2 class="p-1">Please Log in</h2>
             <h3 th:if="${loginError}" class="text-danger p-1">Wrong user or password</h3>
+            <h3 th:if="${loginLogout}" class="text-success p-1">You've been successfully logged off</h3>
         </div>
 
         <form th:action="@{/login}" method="post">
