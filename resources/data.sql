@@ -107,6 +107,6 @@ CREATE TABLE users
 );
 
 insert into Users(fullname, username, password, role)
-values ('Administrator', 'admin', 'admin', 'ADMIN');
+values ('Administrator', 'admin', '$2y$10$Vfua8hXgt12F8aey4G6wi.xGet1G2aN/x8gbw6JSSUHB4/K3KmEA.', 'ADMIN');
 insert into Users(fullname, username, password, role)
 values ('User', 'user', 'user', 'USER');
