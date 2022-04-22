@@ -16,16 +16,18 @@
 </head>
 <body>
 <div class="container">
+
     <div class="row">
-        <h2>Update Bid</h2>
+        <h2>Update New Rule</h2>
     </div>
 
     <div class="row">
-        <form action="#" th:action="@{/bidListEntity/update/{id}(id=${bidListEntity.bidListId})}"
-              th:object="${bidListEntity}" method="post" class="form-horizontal" style="width: 100%">
+        <form action="#" th:action="@{/ruleEntity/update/{id}(id=${ruleEntity.id})}"
+              th:object="${ruleEntity}" method="post" class="form-horizontal" style="width: 100%">
             <!--
-            TODO: Create a form to edit the values of Bid, there are 2 buttons: Update data and Cancel to the list Bid
+            TODO: Create a form to edit the values of RuleName, there are 2 buttons: Update data and Cancel to the RuleName
              -->
+
         </form>
     </div>
 

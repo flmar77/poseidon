@@ -1,6 +1,6 @@
 package com.poseidon.app.web.rawController;
 
-import com.poseidon.app.dal.entity.RuleNameEntity;
+import com.poseidon.app.dal.entity.RuleEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.validation.Valid;
 
 @Controller
-public class RuleNameController {
+public class RuleController {
     // TODO: Inject RuleName service
 
     @RequestMapping("/ruleName/list")
@@ -22,12 +22,12 @@ public class RuleNameController {
     }
 
     @GetMapping("/ruleName/add")
-    public String addRuleForm(RuleNameEntity bid) {
+    public String addRuleForm(RuleEntity bid) {
         return "ruleName/add";
     }
 
     @PostMapping("/ruleName/validate")
-    public String validate(@Valid RuleNameEntity ruleNameEntity, BindingResult result, Model model) {
+    public String validate(@Valid RuleEntity ruleEntity, BindingResult result, Model model) {
         // TODO: check data valid and save to db, after saving return RuleName list
         return "ruleName/add";
     }
@@ -39,7 +39,7 @@ public class RuleNameController {
     }
 
     @PostMapping("/ruleName/update/{id}")
-    public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleNameEntity ruleNameEntity,
+    public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleEntity ruleEntity,
                                  BindingResult result, Model model) {
         // TODO: check required fields, if valid call service to update RuleName and return RuleName list
         return "redirect:/ruleName/list";

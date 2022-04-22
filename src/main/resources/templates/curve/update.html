@@ -16,18 +16,16 @@
 </head>
 <body>
 <div class="container">
-
     <div class="row">
-        <h2>Update New Rule</h2>
+        <h2>Update CurvePoint</h2>
     </div>
 
     <div class="row">
-        <form action="#" th:action="@{/ruleNameEntity/update/{id}(id=${ruleNameEntity.id})}"
-              th:object="${ruleNameEntity}" method="post" class="form-horizontal" style="width: 100%">
+        <form action="#" th:action="@{/curveEntity/update/{id}(id=${curveEntity.id})}"
+              th:object="${curveEntity}" method="post" class="form-horizontal" style="width: 100%">
             <!--
-            TODO: Create a form to edit the values of RuleName, there are 2 buttons: Update data and Cancel to the RuleName
+            TODO: Create a form to edit the values of CurvePoint, there are 2 buttons: Update data and Cancel to the Curve Point
              -->
-
         </form>
     </div>
 

@@ -11,12 +11,12 @@ import java.sql.Timestamp;
 @Setter
 @Entity
 @Table(name = "curvepoint")
-public class CurvePointEntity {
+public class CurveEntity {
 
-    public CurvePointEntity() {
+    public CurveEntity() {
     }
 
-    public CurvePointEntity(Integer curveId, Double term, Double value) {
+    public CurveEntity(Integer curveId, Double term, Double value) {
         this.curveId = curveId;
         this.term = term;
         this.value = value;

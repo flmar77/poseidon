@@ -18,11 +18,11 @@
 <div class="container">
     <div class="row">
         <div class="col-6">
-            <a href="/bidListEntity/list">Bid List</a>&nbsp;|&nbsp;
-            <a href="/curvePointEntity/list">Curve Points</a>&nbsp;|&nbsp;
+            <a href="/bidEntity/list">Bid List</a>&nbsp;|&nbsp;
+            <a href="/curveEntity/list">Curve Points</a>&nbsp;|&nbsp;
             <a href="/ratingEntity/list">Ratings</a>&nbsp;|&nbsp;
             <a href="/tradeEntity/list">Trade</a>&nbsp;|&nbsp;
-            <a href="/ruleNameEntity/list">Rule</a>
+            <a href="/ruleEntity/list">Rule</a>
         </div>
         <div class="col-6 text-right">
             Logged in userEntity: <b th:inline="text" class="userEntity"> [[${#httpServletRequest.remoteUser}]] </b>
@@ -31,21 +31,21 @@
             </form>
         </div>
     </div>
-    <div class="row"><h2>Bid List</h2></div>
+    <div class="row"><h2>Curve Point List</h2></div>
     <div class="row">
-        <a href="/bidListEntity/add" class="btn btn-primary btn-sm">Add New</a>
+        <a href="/curveEntity/add" class="btn btn-primary btn-sm">Add New</a>
         <table class="table table-bordered">
             <thead>
             <tr>
                 <th>Id</th>
-                <th>Account</th>
-                <th>Type</th>
-                <th>Bid Quantity</th>
+                <th>CurvePointId</th>
+                <th>Term</th>
+                <th>Value</th>
                 <th>Action</th>
             </tr>
             </thead>
             <tbody>
-            <!-- TODO: Show all Bids to the table, the Action column will have Edit & Delete buttons -->
+            <!-- TODO: Show all CurvePoint to the table, the action column will have Edit & Delete buttons -->
             </tbody>
         </table>
     </div>

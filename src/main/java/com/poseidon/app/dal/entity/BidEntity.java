@@ -10,12 +10,12 @@ import java.sql.Timestamp;
 @Setter
 @Entity
 @Table(name = "bidlist")
-public class BidListEntity {
+public class BidEntity {
 
-    public BidListEntity() {
+    public BidEntity() {
     }
 
-    public BidListEntity(String account, String type, Double bidQuantity) {
+    public BidEntity(String account, String type, Double bidQuantity) {
         this.account = account;
         this.type = type;
         this.bidQuantity = bidQuantity;

@@ -1,6 +1,6 @@
 package com.poseidon.app.web.rawController;
 
-import com.poseidon.app.dal.entity.BidListEntity;
+import com.poseidon.app.dal.entity.BidEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,7 +13,7 @@ import javax.validation.Valid;
 
 
 @Controller
-public class BidListController {
+public class BidController {
     // TODO: Inject Bid service
 
     @RequestMapping("/bidList/list")
@@ -23,12 +23,12 @@ public class BidListController {
     }
 
     @GetMapping("/bidList/add")
-    public String addBidForm(BidListEntity bid) {
+    public String addBidForm(BidEntity bid) {
         return "bidList/add";
     }
 
     @PostMapping("/bidList/validate")
-    public String validate(@Valid BidListEntity bid, BindingResult result, Model model) {
+    public String validate(@Valid BidEntity bid, BindingResult result, Model model) {
         // TODO: check data valid and save to db, after saving return bid list
         return "bidList/add";
     }
@@ -40,7 +40,7 @@ public class BidListController {
     }
 
     @PostMapping("/bidList/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id, @Valid BidListEntity bidListEntity,
+    public String updateBid(@PathVariable("id") Integer id, @Valid BidEntity bidEntity,
                             BindingResult result, Model model) {
         // TODO: check required fields, if valid call service to update Bid and return list Bid
         return "redirect:/bidList/list";

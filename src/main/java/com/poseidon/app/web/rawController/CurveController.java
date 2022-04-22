@@ -1,6 +1,6 @@
 package com.poseidon.app.web.rawController;
 
-import com.poseidon.app.dal.entity.CurvePointEntity;
+import com.poseidon.app.dal.entity.CurveEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,12 +22,12 @@ public class CurveController {
     }
 
     @GetMapping("/curvePoint/add")
-    public String addBidForm(CurvePointEntity bid) {
+    public String addBidForm(CurveEntity bid) {
         return "curvePoint/add";
     }
 
     @PostMapping("/curvePoint/validate")
-    public String validate(@Valid CurvePointEntity curvePointEntity, BindingResult result, Model model) {
+    public String validate(@Valid CurveEntity curveEntity, BindingResult result, Model model) {
         // TODO: check data valid and save to db, after saving return Curve list
         return "curvePoint/add";
     }
@@ -39,7 +39,7 @@ public class CurveController {
     }
 
     @PostMapping("/curvePoint/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id, @Valid CurvePointEntity curvePointEntity,
+    public String updateBid(@PathVariable("id") Integer id, @Valid CurveEntity curveEntity,
                             BindingResult result, Model model) {
         // TODO: check required fields, if valid call service to update Curve and return Curve list
         return "redirect:/curvePoint/list";

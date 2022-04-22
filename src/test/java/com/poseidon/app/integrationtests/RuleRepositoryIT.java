@@ -1,7 +1,7 @@
 package com.poseidon.app.integrationtests;
 
-import com.poseidon.app.dal.entity.RuleNameEntity;
-import com.poseidon.app.dal.repository.RuleNameRepository;
+import com.poseidon.app.dal.entity.RuleEntity;
+import com.poseidon.app.dal.repository.RuleRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,33 +12,33 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class RuleNameRepositoryIT {
+public class RuleRepositoryIT {
 
     @Autowired
-    private RuleNameRepository ruleNameRepository;
+    private RuleRepository ruleRepository;
 
     @Test
     public void ruleTest() {
-        RuleNameEntity rule = new RuleNameEntity("Rule Name", "Description", "Json", "Template", "SQL", "SQL Part");
+        RuleEntity rule = new RuleEntity("Rule Name", "Description", "Json", "Template", "SQL", "SQL Part");
 
         // Save
-        rule = ruleNameRepository.save(rule);
+        rule = ruleRepository.save(rule);
         assertNotNull(rule.getId());
         assertTrue(rule.getName().equals("Rule Name"));
 
         // Update
         rule.setName("Rule Name Update");
-        rule = ruleNameRepository.save(rule);
+        rule = ruleRepository.save(rule);
         assertTrue(rule.getName().equals("Rule Name Update"));
 
         // Find
-        List<RuleNameEntity> listResult = ruleNameRepository.findAll();
+        List<RuleEntity> listResult = ruleRepository.findAll();
         assertTrue(listResult.size() > 0);
 
         // Delete
         Integer id = rule.getId();
-        ruleNameRepository.delete(rule);
-        Optional<RuleNameEntity> ruleList = ruleNameRepository.findById(id);
+        ruleRepository.delete(rule);
+        Optional<RuleEntity> ruleList = ruleRepository.findById(id);
         assertFalse(ruleList.isPresent());
     }
 }

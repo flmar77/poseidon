@@ -9,12 +9,12 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "rulename")
-public class RuleNameEntity {
+public class RuleEntity {
 
-    public RuleNameEntity() {
+    public RuleEntity() {
     }
 
-    public RuleNameEntity(String name, String description, String json, String template, String sqlStr, String sqlPart) {
+    public RuleEntity(String name, String description, String json, String template, String sqlStr, String sqlPart) {
         this.name = name;
         this.description = description;
         this.json = json;
