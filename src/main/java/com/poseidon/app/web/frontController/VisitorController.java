@@ -1,4 +1,4 @@
-package com.poseidon.app.web.rawController;
+package com.poseidon.app.web.frontController;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -7,7 +7,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @Controller
-public class LoginController {
+public class VisitorController {
+
+    @GetMapping("/")
+    public String home() {
+        log.debug("get home");
+        return "/home";
+    }
 
     @GetMapping("/login")
     public String login() {
