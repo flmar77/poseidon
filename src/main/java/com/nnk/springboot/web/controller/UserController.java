@@ -6,7 +6,6 @@ import com.nnk.springboot.domain.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.EntityExistsException;
 import javax.validation.Valid;
+import java.util.NoSuchElementException;
 
 @Slf4j
 @Controller
@@ -72,26 +72,42 @@ public class UserController {
     }
 
     @GetMapping("/user/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-        userEntity.setPassword("");
-        model.addAttribute("user", userEntity);
-        return "user/update";
+    public String getUserUpdate(@PathVariable("id") Integer id,
+                                Model model,
+                                RedirectAttributes redirectAttributes) {
+        try {
+            UserEntity userEntity = userService.getUserById(id);
+            userEntity.setPassword("");
+            model.addAttribute("userEntity", userEntity);
+            return "user/update";
+        } catch (NoSuchElementException e) {
+            log.debug("can't update missing user with id : " + id);
+            redirectAttributes.addFlashAttribute("missingUserId", true);
+            return "redirect:/user/list";
+        }
     }
 
     @PostMapping("/user/update/{id}")
-    public String updateUser(@PathVariable("id") Integer id, @Valid UserEntity userEntity,
-                             BindingResult result, Model model) {
+    public String postUserUpdate(@PathVariable("id") Integer id,
+                                 @Valid UserEntity userEntity,
+                                 BindingResult result,
+                                 Model model,
+                                 RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "user/update";
         }
 
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        userEntity.setPassword(encoder.encode(userEntity.getPassword()));
-        userEntity.setId(id);
-        userRepository.save(userEntity);
-        model.addAttribute("users", userRepository.findAll());
-        return "redirect:/user/list";
+        try {
+            userEntity.setId(id);
+            UserEntity userEntitySaved = userService.updateUser(userEntity);
+            log.debug("user updated with id : " + userEntitySaved.getId());
+            model.addAttribute("rightUpdatedUser", true);
+            return "/user/update";
+        } catch (NoSuchElementException e) {
+            log.debug("can't update missing user with id : " + id);
+            redirectAttributes.addFlashAttribute("missingUserId", true);
+            return "redirect:/user/list";
+        }
     }
 
     @GetMapping("/user/delete/{id}")

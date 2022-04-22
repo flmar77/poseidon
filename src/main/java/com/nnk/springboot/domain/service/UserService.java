@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityExistsException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -43,12 +44,26 @@ public class UserService implements UserDetailsService {
         if (userRepository.findByUserName(userEntity.getUserName()).isPresent()) {
             throw new EntityExistsException();
         }
-        userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-
-        return userRepository.save(userEntity);
+        return saveUserWithHashPassword(userEntity);
     }
 
     public List<UserEntity> getAllUsers() {
         return userRepository.findAll();
     }
+
+    public UserEntity getUserById(Integer id) throws NoSuchElementException {
+        return userRepository.findById(id)
+                .orElseThrow(NoSuchElementException::new);
+    }
+
+    public UserEntity updateUser(UserEntity userEntity) throws NoSuchElementException {
+        getUserById(userEntity.getId());
+        return saveUserWithHashPassword(userEntity);
+    }
+
+    private UserEntity saveUserWithHashPassword(UserEntity userEntity) {
+        userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+        return userRepository.save(userEntity);
+    }
+
 }
