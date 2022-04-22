@@ -20,9 +20,6 @@
 <div th:replace="fragments/header :: header"></div>
 
 <div class="container-lg p-3 bg-light">
-    <div class="bg-secondary w-100 p-1 text-center m-auto">
-        <h1>Poseidon</h1>
-    </div>
     <div class="p-1 text-center">
         <h3 th:if="${rightCreatedUser}" class="text-success p-1">your account has been successfully created !</h3>
         <h2>Welcome <span th:text="${username}"></span> to your home page</h2>

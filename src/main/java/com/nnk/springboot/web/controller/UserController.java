@@ -10,7 +10,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.EntityExistsException;
@@ -35,9 +38,10 @@ public class UserController {
         return "/user/home";
     }
 
-    @RequestMapping("/user/list")
+    @GetMapping("/user/list")
     public String getUserList(Model model) {
-        model.addAttribute("users", userRepository.findAll());
+        log.debug("get all users");
+        model.addAttribute("userEntities", userService.getAllUsers());
         return "user/list";
     }
 

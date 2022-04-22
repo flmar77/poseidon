@@ -47,4 +47,8 @@ public class UserService implements UserDetailsService {
 
         return userRepository.save(userEntity);
     }
+
+    public List<UserEntity> getAllUsers() {
+        return userRepository.findAll();
+    }
 }
