@@ -37,13 +37,13 @@ public class UserController {
     public String getUserList(Model model) {
         log.debug("get all users");
         model.addAttribute("userEntities", userService.getAllUsers());
-        return "user/list";
+        return "/user/list";
     }
 
     @GetMapping("/user/add")
     public String getUserAdd(Model model) {
         model.addAttribute("userEntity", new UserEntity());
-        return "user/add";
+        return "/user/add";
     }
 
     @PostMapping("/user/add")
@@ -73,7 +73,7 @@ public class UserController {
         try {
             UserEntity userEntity = userService.getUserById(id);
             model.addAttribute("userEntity", userEntity);
-            return "user/update";
+            return "/user/update";
         } catch (NoSuchElementException e) {
             log.debug("can't update missing user with id : " + id);
             redirectAttributes.addFlashAttribute("missingUserId", true);
@@ -83,12 +83,12 @@ public class UserController {
 
     @PostMapping("/user/update/{id}")
     public String postUserUpdate(@PathVariable("id") Integer id,
-                                 @Valid UserEntity userEntity,
+                                 @Valid @ModelAttribute UserEntity userEntity,
                                  BindingResult result,
                                  Model model,
                                  RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            return "user/update";
+            return "/user/update";
         }
 
         try {
@@ -111,11 +111,11 @@ public class UserController {
             userService.deleteUserById(id);
             log.debug("user deleted with id : " + id);
             redirectAttributes.addFlashAttribute("rightDeletedUser", true);
-            return "redirect:/user/list";
         } catch (NoSuchElementException e) {
             log.debug("can't delete missing user with id : " + id);
             redirectAttributes.addFlashAttribute("missingUserId", true);
-            return "redirect:/user/list";
         }
+        return "redirect:/user/list";
     }
+
 }
