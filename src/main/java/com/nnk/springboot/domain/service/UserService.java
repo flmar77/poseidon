@@ -52,8 +52,10 @@ public class UserService implements UserDetailsService {
     }
 
     public UserEntity getUserById(Integer id) throws NoSuchElementException {
-        return userRepository.findById(id)
+        UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(NoSuchElementException::new);
+        userEntity.setPassword("");
+        return userEntity;
     }
 
     public UserEntity updateUser(UserEntity userEntity) throws NoSuchElementException {
@@ -61,9 +63,15 @@ public class UserService implements UserDetailsService {
         return saveUserWithHashPassword(userEntity);
     }
 
-    private UserEntity saveUserWithHashPassword(UserEntity userEntity) {
-        userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-        return userRepository.save(userEntity);
+    public void deleteUserById(Integer id) throws NoSuchElementException {
+        getUserById(id);
+        userRepository.deleteById(id);
     }
 
+    private UserEntity saveUserWithHashPassword(UserEntity userEntityToSave) {
+        userEntityToSave.setPassword(passwordEncoder.encode(userEntityToSave.getPassword()));
+        UserEntity userEntitySaved = userRepository.save(userEntityToSave);
+        userEntitySaved.setPassword("");
+        return userEntitySaved;
+    }
 }

@@ -21,7 +21,9 @@
 <div class="container-lg p-3 bg-light">
     <div class="p-1 text-center">
         <h2>User List</h2>
-        <h3 th:if="${missingUserId}" class="text-danger p-1">can't update missing user - please choose a new one</h3>
+        <h3 th:if="${missingUserId}" class="text-danger p-1">can't update/delete missing user - please choose a new
+            one</h3>
+        <h3 th:if="${rightDeletedUser}" class="text-success p-1">user has been successfully deleted</h3>
     </div>
 
     <div class="p-1 m-auto w-75">

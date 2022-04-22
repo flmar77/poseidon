@@ -1,7 +1,6 @@
 package com.nnk.springboot.web.controller;
 
 import com.nnk.springboot.dal.entity.UserEntity;
-import com.nnk.springboot.dal.repository.UserRepository;
 import com.nnk.springboot.domain.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +21,6 @@ import java.util.NoSuchElementException;
 @Slf4j
 @Controller
 public class UserController {
-
-    // TODO : delete
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
@@ -77,7 +72,6 @@ public class UserController {
                                 RedirectAttributes redirectAttributes) {
         try {
             UserEntity userEntity = userService.getUserById(id);
-            userEntity.setPassword("");
             model.addAttribute("userEntity", userEntity);
             return "user/update";
         } catch (NoSuchElementException e) {
@@ -111,10 +105,17 @@ public class UserController {
     }
 
     @GetMapping("/user/delete/{id}")
-    public String deleteUser(@PathVariable("id") Integer id, Model model) {
-        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-        userRepository.delete(userEntity);
-        model.addAttribute("users", userRepository.findAll());
-        return "redirect:/user/list";
+    public String deleteUser(@PathVariable("id") Integer id,
+                             RedirectAttributes redirectAttributes) {
+        try {
+            userService.deleteUserById(id);
+            log.debug("user deleted with id : " + id);
+            redirectAttributes.addFlashAttribute("rightDeletedUser", true);
+            return "redirect:/user/list";
+        } catch (NoSuchElementException e) {
+            log.debug("can't delete missing user with id : " + id);
+            redirectAttributes.addFlashAttribute("missingUserId", true);
+            return "redirect:/user/list";
+        }
     }
 }
