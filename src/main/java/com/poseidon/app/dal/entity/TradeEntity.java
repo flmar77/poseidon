@@ -16,14 +16,15 @@ public class TradeEntity {
     public TradeEntity() {
     }
 
-    public TradeEntity(String account, String type) {
+    public TradeEntity(String account, String type, Double buyQuantity) {
         this.account = account;
         this.type = type;
+        this.buyQuantity = buyQuantity;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer tradeId;
+    private Integer id;
 
     private String account;
     private String type;
@@ -31,11 +32,11 @@ public class TradeEntity {
     private Double sellQuantity;
     private Double buyPrice;
     private Double sellPrice;
-    private String benchmark;
     private Timestamp tradeDate;
     private String security;
     private String status;
     private String trader;
+    private String benchmark;
     private String book;
     private String creationName;
     private Timestamp creationDate;

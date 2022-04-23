@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Entity
-@Table(name = "curvepoint")
+@Table(name = "curve")
 public class CurveEntity {
 
     public CurveEntity() {
@@ -27,9 +27,9 @@ public class CurveEntity {
     private Integer id;
 
     private Integer curveId;
-    private Timestamp asOfDate;
     private Double term;
     private Double value;
+    private Timestamp asOfDate;
     private Timestamp creationDate;
 
 

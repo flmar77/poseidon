@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Entity
-@Table(name = "bidlist")
+@Table(name = "bid")
 public class BidEntity {
 
     public BidEntity() {
@@ -23,7 +23,7 @@ public class BidEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer bidListId;
+    private Integer id;
 
     private String account;
     private String type;

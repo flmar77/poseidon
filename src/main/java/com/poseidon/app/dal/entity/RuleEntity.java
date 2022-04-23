@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "rulename")
+@Table(name = "rule")
 public class RuleEntity {
 
     public RuleEntity() {

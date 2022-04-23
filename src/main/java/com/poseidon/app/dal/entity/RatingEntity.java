@@ -25,9 +25,9 @@ public class RatingEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private Integer orderNumber;
     private String moodysRating;
     private String sandPrating;
     private String fitchRating;
-    private Integer orderNumber;
 
 }
