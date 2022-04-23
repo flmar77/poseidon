@@ -1,10 +1,10 @@
 DROP TABLE IF EXISTS bid CASCADE;
 CREATE TABLE bid
 (
-    id           INTEGER     NOT NULL AUTO_INCREMENT,
-    account      VARCHAR(30) NOT NULL UNIQUE,
-    type         VARCHAR(30) NOT NULL,
-    bidQuantity  DOUBLE      NOT NULL,
+    id           INTEGER       NOT NULL AUTO_INCREMENT,
+    account      VARCHAR(255)  NOT NULL UNIQUE,
+    type         VARCHAR(255)  NOT NULL,
+    bidQuantity  DOUBLE(10, 2) NOT NULL,
     askQuantity  DOUBLE,
     bid          DOUBLE,
     ask          DOUBLE,
@@ -45,9 +45,9 @@ CREATE TABLE rating
 (
     id           INTEGER      NOT NULL AUTO_INCREMENT,
     orderNumber  INTEGER      NOT NULL UNIQUE,
-    moodysRating VARCHAR(125) NOT NULL,
-    sandPrating  VARCHAR(125) NOT NULL,
-    fitchRating  VARCHAR(125) NOT NULL,
+    moodysRating VARCHAR(255) NOT NULL,
+    sandPrating  VARCHAR(255) NOT NULL,
+    fitchRating  VARCHAR(255) NOT NULL,
 
     PRIMARY KEY (id)
 );
@@ -56,12 +56,12 @@ DROP TABLE IF EXISTS rule CASCADE;
 CREATE TABLE rule
 (
     id          INTEGER      NOT NULL AUTO_INCREMENT,
-    name        VARCHAR(125) NOT NULL UNIQUE,
-    description VARCHAR(125) NOT NULL,
-    json        VARCHAR(125) NOT NULL,
-    template    VARCHAR(512) NOT NULL,
-    sqlStr      VARCHAR(125) NOT NULL,
-    sqlPart     VARCHAR(125) NOT NULL,
+    name        VARCHAR(255) NOT NULL UNIQUE,
+    description VARCHAR(255) NOT NULL,
+    json        VARCHAR(255) NOT NULL,
+    template    VARCHAR(255) NOT NULL,
+    sqlStr      VARCHAR(255) NOT NULL,
+    sqlPart     VARCHAR(255) NOT NULL,
 
     PRIMARY KEY (id)
 );
@@ -69,10 +69,10 @@ CREATE TABLE rule
 DROP TABLE IF EXISTS trade CASCADE;
 CREATE TABLE trade
 (
-    id           INTEGER     NOT NULL AUTO_INCREMENT,
-    account      VARCHAR(30) NOT NULL UNIQUE,
-    type         VARCHAR(30) NOT NULL,
-    buyQuantity  DOUBLE      NOT NULL,
+    id           INTEGER      NOT NULL AUTO_INCREMENT,
+    account      VARCHAR(255) NOT NULL UNIQUE,
+    type         VARCHAR(255) NOT NULL,
+    buyQuantity  DOUBLE       NOT NULL,
     sellQuantity DOUBLE,
     buyPrice     DOUBLE,
     sellPrice    DOUBLE,
@@ -98,10 +98,10 @@ DROP TABLE IF EXISTS user CASCADE;
 CREATE TABLE user
 (
     id       INTEGER      NOT NULL AUTO_INCREMENT,
-    userName VARCHAR(125) NOT NULL UNIQUE,
-    password VARCHAR(125) NOT NULL,
-    fullName VARCHAR(125) NOT NULL,
-    role     VARCHAR(125) NOT NULL,
+    userName VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    fullName VARCHAR(255) NOT NULL,
+    role     VARCHAR(255) NOT NULL,
 
     PRIMARY KEY (id)
 );
