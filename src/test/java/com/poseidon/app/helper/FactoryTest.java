@@ -1,5 +1,6 @@
 package com.poseidon.app.helper;
 
+import com.poseidon.app.dal.entity.BidEntity;
 import com.poseidon.app.dal.entity.UserEntity;
 
 public abstract class FactoryTest {
@@ -14,4 +15,11 @@ public abstract class FactoryTest {
         return userEntity;
     }
 
+    public static BidEntity getFakeBidEntity() {
+        BidEntity bidEntity = new BidEntity();
+        bidEntity.setAccount("accountTest");
+        bidEntity.setType("typeTest");
+        bidEntity.setBidQuantity(111.11D);
+        return bidEntity;
+    }
 }

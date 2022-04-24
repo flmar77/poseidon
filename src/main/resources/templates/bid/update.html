@@ -4,7 +4,7 @@
       lang="en-us">
 <head>
     <meta charset="utf-8"/>
-    <title>Poseidon - Add Bid</title>
+    <title>Poseidon - Bid update</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
@@ -23,14 +23,13 @@
     <div class="m-auto w-50">
 
         <div class="text-center">
-            <h2 class="p-1">Add New Bid</h2>
-            <h3 th:if="${wrongCreatedBid}" class="text-danger p-1">account already exists - please choose a new
-                one</h3>
+            <h2 class="p-1">Update Bid</h2>
+            <h3 th:if="${rightUpdatedBid}" class="text-success p-1">Bid has been successfully updated</h3>
         </div>
 
         <div class="w-100 m-auto">
 
-            <form th:action="@{/bid/add}" th:object="${bidEntity}" method="post">
+            <form th:action="@{/bid/update/{id}(id=${bidEntity.id})}" th:object="${bidEntity}" method="post">
 
                 <div class="form-group p-1">
                     <label for="account" class="form-label">account</label>
@@ -55,8 +54,9 @@
 
                 <div class="form-group p-1">
                     <div class="d-flex justify-content-between">
+                        <!--suppress HtmlUnknownTarget -->
                         <a class="btn btn-danger w-25" href="/bid/list">Cancel</a>
-                        <input class="btn btn-primary w-50" type="submit" value="Add Bid"/>
+                        <input class="btn btn-primary w-50" type="submit" value="Update Bid"/>
                     </div>
                 </div>
 
