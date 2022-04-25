@@ -19,17 +19,17 @@ public class RatingRepositoryIT {
 
     @Test
     public void ratingTest() {
-        RatingEntity ratingEntity = new RatingEntity("Moodys Rating", "Sand PRating", "Fitch Rating", 10);
+        RatingEntity ratingEntity = new RatingEntity(10, "Moodys Rating", "Sand PRating", "Fitch Rating");
 
         // Save
         ratingEntity = ratingRepository.save(ratingEntity);
         assertNotNull(ratingEntity.getId());
-        assertTrue(ratingEntity.getOrderNumber() == 10);
+        assertEquals(10, (int) ratingEntity.getOrderNumber());
 
         // Update
         ratingEntity.setOrderNumber(20);
         ratingEntity = ratingRepository.save(ratingEntity);
-        assertTrue(ratingEntity.getOrderNumber() == 20);
+        assertEquals(20, (int) ratingEntity.getOrderNumber());
 
         // Find
         List<RatingEntity> listResult = ratingRepository.findAll();

@@ -54,7 +54,7 @@ public class BidControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("/bid/list"))
                 .andExpect(model().attributeExists("bidEntities"))
-                .andExpect(content().string(containsString("accountTest")));
+                .andExpect(content().string(containsString(String.valueOf(Faker.getFakeBidEntity().getAccount()))));
     }
 
     @Test

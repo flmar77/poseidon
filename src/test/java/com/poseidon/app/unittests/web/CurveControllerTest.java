@@ -54,7 +54,7 @@ public class CurveControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("/curve/list"))
                 .andExpect(model().attributeExists("curveEntities"))
-                .andExpect(content().string(containsString("1")));
+                .andExpect(content().string(containsString(String.valueOf(Faker.getFakeCurveEntity().getCurveId()))));
     }
 
     @Test

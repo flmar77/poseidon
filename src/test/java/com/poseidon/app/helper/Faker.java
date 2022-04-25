@@ -2,6 +2,7 @@ package com.poseidon.app.helper;
 
 import com.poseidon.app.dal.entity.BidEntity;
 import com.poseidon.app.dal.entity.CurveEntity;
+import com.poseidon.app.dal.entity.RatingEntity;
 import com.poseidon.app.dal.entity.UserEntity;
 
 public abstract class Faker {
@@ -17,11 +18,8 @@ public abstract class Faker {
     }
 
     public static BidEntity getFakeBidEntity() {
-        BidEntity bidEntity = new BidEntity();
+        BidEntity bidEntity = new BidEntity("accountTest", "typeTest", 111.11D);
         bidEntity.setId(1);
-        bidEntity.setAccount("accountTest");
-        bidEntity.setType("typeTest");
-        bidEntity.setBidQuantity(111.11D);
         bidEntity.setAskQuantity(null);
         bidEntity.setBid(null);
         bidEntity.setAsk(null);
@@ -44,13 +42,16 @@ public abstract class Faker {
     }
 
     public static CurveEntity getFakeCurveEntity() {
-        CurveEntity curveEntity = new CurveEntity();
+        CurveEntity curveEntity = new CurveEntity(1, 1.11D, 2.22D);
         curveEntity.setId(1);
-        curveEntity.setCurveId(1);
-        curveEntity.setTerm(1.11D);
-        curveEntity.setValue(2.22D);
         curveEntity.setAsOfDate(null);
         curveEntity.setCreationDate(null);
         return curveEntity;
+    }
+
+    public static RatingEntity getFakeRatingEntity() {
+        RatingEntity ratingEntity = new RatingEntity(1, "moodysRatingTest", "sandPratingTest", "fitchRatingTest");
+        ratingEntity.setId(1);
+        return ratingEntity;
     }
 }

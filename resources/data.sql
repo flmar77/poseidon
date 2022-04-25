@@ -44,7 +44,7 @@ DROP TABLE IF EXISTS rating CASCADE;
 CREATE TABLE rating
 (
     id           INTEGER      NOT NULL AUTO_INCREMENT,
-    orderNumber  INTEGER      NOT NULL UNIQUE,
+    orderNumber  INTEGER(8)   NOT NULL UNIQUE CHECK ( orderNumber >= 0),
     moodysRating VARCHAR(255) NOT NULL,
     sandPrating  VARCHAR(255) NOT NULL,
     fitchRating  VARCHAR(255) NOT NULL,
