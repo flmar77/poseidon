@@ -2,7 +2,7 @@ package com.poseidon.app.unittests.web;
 
 import com.poseidon.app.dal.entity.UserEntity;
 import com.poseidon.app.domain.service.UserService;
-import com.poseidon.app.helper.FactoryTest;
+import com.poseidon.app.helper.Faker;
 import com.poseidon.app.web.frontController.UserController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,7 @@ public class UserControllerTest {
     @Test
     @WithMockUser
     public void should_returnRightUserList_whenGetUserList() throws Exception {
-        when(userService.getAllUsers()).thenReturn(Collections.singletonList(FactoryTest.getFakeUserEntity()));
+        when(userService.getAllUsers()).thenReturn(Collections.singletonList(Faker.getFakeUserEntity()));
 
         mockMvc.perform(get("/user/list"))
                 .andExpect(status().isOk())
@@ -73,7 +73,7 @@ public class UserControllerTest {
     @Test
     @WithMockUser
     public void should_returnBindingErrors_whenPostPartialUserAdd() throws Exception {
-        UserEntity userEntityPartial = FactoryTest.getFakeUserEntity();
+        UserEntity userEntityPartial = Faker.getFakeUserEntity();
         userEntityPartial.setUserName("");
 
         mockMvc.perform(post("/user/add")
@@ -87,11 +87,11 @@ public class UserControllerTest {
     @Test
     @WithMockUser
     public void should_createUser_whenPostNewUserAdd() throws Exception {
-        when(userService.createUser(any())).thenReturn(FactoryTest.getFakeUserEntity());
+        when(userService.createUser(any())).thenReturn(Faker.getFakeUserEntity());
 
         mockMvc.perform(post("/user/add")
                         .with(csrf())
-                        .flashAttr("userEntity", FactoryTest.getFakeUserEntity()))
+                        .flashAttr("userEntity", Faker.getFakeUserEntity()))
                 .andExpect(status().isFound())
                 .andExpect(MockMvcResultMatchers.flash().attribute("rightCreatedUser", true))
                 .andExpect(view().name("redirect:/user/home"));
@@ -104,7 +104,7 @@ public class UserControllerTest {
 
         mockMvc.perform(post("/user/add")
                         .with(csrf())
-                        .flashAttr("userEntity", FactoryTest.getFakeUserEntity()))
+                        .flashAttr("userEntity", Faker.getFakeUserEntity()))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attribute("wrongCreatedUser", true))
                 .andExpect(view().name("/user/add"));
@@ -113,7 +113,7 @@ public class UserControllerTest {
     @Test
     @WithMockUser
     public void should_returnUserUpdate_whenGetExistingUserUpdate() throws Exception {
-        when(userService.getUserById(anyInt())).thenReturn(FactoryTest.getFakeUserEntity());
+        when(userService.getUserById(anyInt())).thenReturn(Faker.getFakeUserEntity());
 
         mockMvc.perform(get("/user/update/1")
                         .with(csrf()))
@@ -136,7 +136,7 @@ public class UserControllerTest {
     @Test
     @WithMockUser
     public void should_returnBindingErrors_whenPostPartialUserUpdate() throws Exception {
-        UserEntity userEntityPartial = FactoryTest.getFakeUserEntity();
+        UserEntity userEntityPartial = Faker.getFakeUserEntity();
         userEntityPartial.setUserName("");
 
         mockMvc.perform(post("/user/update/1")
@@ -150,11 +150,11 @@ public class UserControllerTest {
     @Test
     @WithMockUser
     public void should_updateUser_whenPostExistingUserUpdate() throws Exception {
-        when(userService.updateUser(any())).thenReturn(FactoryTest.getFakeUserEntity());
+        when(userService.updateUser(any())).thenReturn(Faker.getFakeUserEntity());
 
         mockMvc.perform(post("/user/update/1")
                         .with(csrf())
-                        .flashAttr("userEntity", FactoryTest.getFakeUserEntity()))
+                        .flashAttr("userEntity", Faker.getFakeUserEntity()))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attribute("rightUpdatedUser", true))
                 .andExpect(view().name("/user/update"));
@@ -167,7 +167,7 @@ public class UserControllerTest {
 
         mockMvc.perform(post("/user/update/1")
                         .with(csrf())
-                        .flashAttr("userEntity", FactoryTest.getFakeUserEntity()))
+                        .flashAttr("userEntity", Faker.getFakeUserEntity()))
                 .andExpect(status().isFound())
                 .andExpect(MockMvcResultMatchers.flash().attribute("missingUserId", true))
                 .andExpect(view().name("redirect:/user/list"));

@@ -4,7 +4,7 @@ CREATE TABLE bid
     id           INTEGER       NOT NULL AUTO_INCREMENT,
     account      VARCHAR(255)  NOT NULL UNIQUE,
     type         VARCHAR(255)  NOT NULL,
-    bidQuantity  DOUBLE(10, 2) NOT NULL,
+    bidQuantity  DOUBLE(10, 2) NOT NULL CHECK ( bidQuantity >= 0 ),
     askQuantity  DOUBLE,
     bid          DOUBLE,
     ask          DOUBLE,
@@ -30,10 +30,10 @@ CREATE TABLE bid
 DROP TABLE IF EXISTS curve CASCADE;
 CREATE TABLE curve
 (
-    id           INTEGER NOT NULL AUTO_INCREMENT,
-    curveId      INTEGER NOT NULL UNIQUE,
-    term         DOUBLE  NOT NULL,
-    value        DOUBLE  NOT NULL,
+    id           INTEGER       NOT NULL AUTO_INCREMENT,
+    curveId      INTEGER(8)    NOT NULL UNIQUE CHECK ( curveId >= 0 ),
+    term         DOUBLE(10, 2) NOT NULL,
+    value        DOUBLE(10, 2) NOT NULL,
     asOfDate     TIMESTAMP,
     creationDate TIMESTAMP,
 
@@ -69,10 +69,10 @@ CREATE TABLE rule
 DROP TABLE IF EXISTS trade CASCADE;
 CREATE TABLE trade
 (
-    id           INTEGER      NOT NULL AUTO_INCREMENT,
-    account      VARCHAR(255) NOT NULL UNIQUE,
-    type         VARCHAR(255) NOT NULL,
-    buyQuantity  DOUBLE       NOT NULL,
+    id           INTEGER       NOT NULL AUTO_INCREMENT,
+    account      VARCHAR(255)  NOT NULL UNIQUE,
+    type         VARCHAR(255)  NOT NULL,
+    buyQuantity  DOUBLE(10, 2) NOT NULL,
     sellQuantity DOUBLE,
     buyPrice     DOUBLE,
     sellPrice    DOUBLE,

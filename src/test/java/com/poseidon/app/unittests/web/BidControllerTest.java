@@ -3,7 +3,7 @@ package com.poseidon.app.unittests.web;
 import com.poseidon.app.dal.entity.BidEntity;
 import com.poseidon.app.domain.service.BidService;
 import com.poseidon.app.domain.service.UserService;
-import com.poseidon.app.helper.FactoryTest;
+import com.poseidon.app.helper.Faker;
 import com.poseidon.app.web.frontController.BidController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +47,7 @@ public class BidControllerTest {
     @Test
     @WithMockUser
     public void should_returnRightBidList_whenGetBidList() throws Exception {
-        when(bidService.getAllBids()).thenReturn(Collections.singletonList(FactoryTest.getFakeBidEntity()));
+        when(bidService.getAllBids()).thenReturn(Collections.singletonList(Faker.getFakeBidEntity()));
 
         mockMvc.perform(get("/bid/list")
                         .with(csrf()))
@@ -70,7 +70,7 @@ public class BidControllerTest {
     @Test
     @WithMockUser
     public void should_returnBindingErrors_whenPostPartialBidAdd() throws Exception {
-        BidEntity bidEntityPartial = FactoryTest.getFakeBidEntity();
+        BidEntity bidEntityPartial = Faker.getFakeBidEntity();
         bidEntityPartial.setAccount("");
 
         mockMvc.perform(post("/bid/add")
@@ -84,11 +84,11 @@ public class BidControllerTest {
     @Test
     @WithMockUser
     public void should_createBid_whenPostNewBidAdd() throws Exception {
-        when(bidService.createBid(any())).thenReturn(FactoryTest.getFakeBidEntity());
+        when(bidService.createBid(any())).thenReturn(Faker.getFakeBidEntity());
 
         mockMvc.perform(post("/bid/add")
                         .with(csrf())
-                        .flashAttr("bidEntity", FactoryTest.getFakeBidEntity()))
+                        .flashAttr("bidEntity", Faker.getFakeBidEntity()))
                 .andExpect(status().isFound())
                 .andExpect(MockMvcResultMatchers.flash().attribute("rightCreatedBid", true))
                 .andExpect(view().name("redirect:/bid/list"));
@@ -101,7 +101,7 @@ public class BidControllerTest {
 
         mockMvc.perform(post("/bid/add")
                         .with(csrf())
-                        .flashAttr("bidEntity", FactoryTest.getFakeBidEntity()))
+                        .flashAttr("bidEntity", Faker.getFakeBidEntity()))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attribute("wrongCreatedBid", true))
                 .andExpect(view().name("/bid/add"));
@@ -110,7 +110,7 @@ public class BidControllerTest {
     @Test
     @WithMockUser
     public void should_returnBidUpdate_whenGetExistingBidUpdate() throws Exception {
-        when(bidService.getBidById(anyInt())).thenReturn(FactoryTest.getFakeBidEntity());
+        when(bidService.getBidById(anyInt())).thenReturn(Faker.getFakeBidEntity());
 
         mockMvc.perform(get("/bid/update/1")
                         .with(csrf()))
@@ -133,7 +133,7 @@ public class BidControllerTest {
     @Test
     @WithMockUser
     public void should_returnBindingErrors_whenPostPartialBidUpdate() throws Exception {
-        BidEntity bidEntityPartial = FactoryTest.getFakeBidEntity();
+        BidEntity bidEntityPartial = Faker.getFakeBidEntity();
         bidEntityPartial.setAccount("");
 
         mockMvc.perform(post("/bid/update/1")
@@ -147,11 +147,11 @@ public class BidControllerTest {
     @Test
     @WithMockUser
     public void should_updateBid_whenPostExistingBidUpdate() throws Exception {
-        when(bidService.updateBid(any())).thenReturn(FactoryTest.getFakeBidEntity());
+        when(bidService.updateBid(any())).thenReturn(Faker.getFakeBidEntity());
 
         mockMvc.perform(post("/bid/update/1")
                         .with(csrf())
-                        .flashAttr("bidEntity", FactoryTest.getFakeBidEntity()))
+                        .flashAttr("bidEntity", Faker.getFakeBidEntity()))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attribute("rightUpdatedBid", true))
                 .andExpect(view().name("/bid/update"));
@@ -164,7 +164,7 @@ public class BidControllerTest {
 
         mockMvc.perform(post("/bid/update/1")
                         .with(csrf())
-                        .flashAttr("bidEntity", FactoryTest.getFakeBidEntity()))
+                        .flashAttr("bidEntity", Faker.getFakeBidEntity()))
                 .andExpect(status().isFound())
                 .andExpect(MockMvcResultMatchers.flash().attribute("missingBidId", true))
                 .andExpect(view().name("redirect:/bid/list"));

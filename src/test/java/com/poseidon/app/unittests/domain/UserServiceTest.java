@@ -4,7 +4,7 @@ package com.poseidon.app.unittests.domain;
 import com.poseidon.app.dal.entity.UserEntity;
 import com.poseidon.app.dal.repository.UserRepository;
 import com.poseidon.app.domain.service.UserService;
-import com.poseidon.app.helper.FactoryTest;
+import com.poseidon.app.helper.Faker;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -38,7 +38,7 @@ public class UserServiceTest {
 
     @Test
     public void should_returnSomething_whenLoadExistingUserByUsername() {
-        when(userRepository.findByUserName(anyString())).thenReturn(Optional.of(FactoryTest.getFakeUserEntity()));
+        when(userRepository.findByUserName(anyString())).thenReturn(Optional.of(Faker.getFakeUserEntity()));
 
         assertThat(userService.loadUserByUsername(anyString())).isNotNull();
     }
@@ -55,9 +55,9 @@ public class UserServiceTest {
     public void should_saveUser_whenCreateNewUser() {
         when(userRepository.findByUserName(anyString())).thenReturn(Optional.empty());
         when(passwordEncoder.encode(anyString())).thenReturn("xxx");
-        when(userRepository.save(any())).thenReturn(FactoryTest.getFakeUserEntity());
+        when(userRepository.save(any())).thenReturn(Faker.getFakeUserEntity());
 
-        UserEntity userEntity = userService.createUser(FactoryTest.getFakeUserEntity());
+        UserEntity userEntity = userService.createUser(Faker.getFakeUserEntity());
 
         assertThat(userEntity).isNotNull();
         assertThat(userEntity.getPassword()).isEqualTo("");
@@ -66,22 +66,22 @@ public class UserServiceTest {
 
     @Test
     public void should_throwEntityExistsException_whenCreateExistingUser() {
-        when(userRepository.findByUserName(anyString())).thenReturn(Optional.of(FactoryTest.getFakeUserEntity()));
+        when(userRepository.findByUserName(anyString())).thenReturn(Optional.of(Faker.getFakeUserEntity()));
 
         assertThatExceptionOfType(EntityExistsException.class)
-                .isThrownBy(() -> userService.createUser(FactoryTest.getFakeUserEntity()));
+                .isThrownBy(() -> userService.createUser(Faker.getFakeUserEntity()));
     }
 
     @Test
     public void should_returnSomething_whenGetAllUsers() {
-        when(userRepository.findAll()).thenReturn(Collections.singletonList(FactoryTest.getFakeUserEntity()));
+        when(userRepository.findAll()).thenReturn(Collections.singletonList(Faker.getFakeUserEntity()));
 
         assertThat(userService.getAllUsers()).isNotNull();
     }
 
     @Test
     public void should_findUser_whenGetExistingUserById() {
-        when(userRepository.findById(anyInt())).thenReturn(Optional.of(FactoryTest.getFakeUserEntity()));
+        when(userRepository.findById(anyInt())).thenReturn(Optional.of(Faker.getFakeUserEntity()));
 
         UserEntity userEntity = userService.getUserById(anyInt());
 
@@ -100,11 +100,11 @@ public class UserServiceTest {
 
     @Test
     public void should_saveUser_whenUpdateExistingUser() {
-        when(userRepository.findById(anyInt())).thenReturn(Optional.of(FactoryTest.getFakeUserEntity()));
+        when(userRepository.findById(anyInt())).thenReturn(Optional.of(Faker.getFakeUserEntity()));
         when(passwordEncoder.encode(anyString())).thenReturn("xxx");
-        when(userRepository.save(any())).thenReturn(FactoryTest.getFakeUserEntity());
+        when(userRepository.save(any())).thenReturn(Faker.getFakeUserEntity());
 
-        UserEntity userEntity = userService.updateUser(FactoryTest.getFakeUserEntity());
+        UserEntity userEntity = userService.updateUser(Faker.getFakeUserEntity());
 
         assertThat(userEntity).isNotNull();
         assertThat(userEntity.getPassword()).isEqualTo("");
@@ -116,12 +116,12 @@ public class UserServiceTest {
         when(userRepository.findById(anyInt())).thenReturn(Optional.empty());
 
         assertThatExceptionOfType(NoSuchElementException.class)
-                .isThrownBy(() -> userService.updateUser(FactoryTest.getFakeUserEntity()));
+                .isThrownBy(() -> userService.updateUser(Faker.getFakeUserEntity()));
     }
 
     @Test
     public void should_deleteUser_whenDeleteExistingUser() {
-        when(userRepository.findById(anyInt())).thenReturn(Optional.of(FactoryTest.getFakeUserEntity()));
+        when(userRepository.findById(anyInt())).thenReturn(Optional.of(Faker.getFakeUserEntity()));
 
         userService.deleteUserById(anyInt());
 

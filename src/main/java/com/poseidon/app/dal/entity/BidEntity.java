@@ -2,12 +2,10 @@ package com.poseidon.app.dal.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.sql.Timestamp;
 
 @Getter
@@ -29,15 +27,18 @@ public class BidEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank(message = "Account is mandatory")
+    @NotBlank(message = "account is mandatory")
+    @Length(max = 255, message = "account must be 255 char max")
     private String account;
 
-    @NotBlank(message = "Type is mandatory")
+    @NotBlank(message = "type is mandatory")
+    @Length(max = 255, message = "type must be 255 char max")
     private String type;
 
-    @NotNull(message = "BidQuantity is mandatory")
-    @DecimalMin(value = "0.00", message = "BidQuantity must be >= 0.00")
-    @DecimalMax(value = "99999999.99", message = "BidQuantity must be <= 99999999.99")
+    @NotNull(message = "bidQuantity is mandatory")
+    @Digits(integer = 8, fraction = 2, message = "bidQuantity must be double(10,2)")
+    @DecimalMin(value = "0.00", message = "bidQuantity must >= 0.00")
+    @DecimalMax(value = "99999999.99", message = "bidQuantity must be <= 99999999.99")
     private Double bidQuantity;
 
     private Double askQuantity;

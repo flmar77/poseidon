@@ -4,7 +4,7 @@ package com.poseidon.app.unittests.domain;
 import com.poseidon.app.dal.entity.BidEntity;
 import com.poseidon.app.dal.repository.BidRepository;
 import com.poseidon.app.domain.service.BidService;
-import com.poseidon.app.helper.FactoryTest;
+import com.poseidon.app.helper.Faker;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,7 +33,7 @@ public class BidServiceTest {
 
     @Test
     public void should_returnSomething_whenGetAllBids() {
-        when(bidRepository.findAll()).thenReturn(Collections.singletonList(FactoryTest.getFakeBidEntity()));
+        when(bidRepository.findAll()).thenReturn(Collections.singletonList(Faker.getFakeBidEntity()));
 
         assertThat(bidService.getAllBids()).isNotNull();
     }
@@ -41,9 +41,9 @@ public class BidServiceTest {
     @Test
     public void should_saveBid_whenCreateNewBid() {
         when(bidRepository.findByAccount(anyString())).thenReturn(Optional.empty());
-        when(bidRepository.save(any())).thenReturn(FactoryTest.getFakeBidEntity());
+        when(bidRepository.save(any())).thenReturn(Faker.getFakeBidEntity());
 
-        BidEntity bidEntity = bidService.createBid(FactoryTest.getFakeBidEntity());
+        BidEntity bidEntity = bidService.createBid(Faker.getFakeBidEntity());
 
         assertThat(bidEntity).isNotNull();
         verify(bidRepository, times(1)).save(any());
@@ -51,15 +51,15 @@ public class BidServiceTest {
 
     @Test
     public void should_throwEntityExistsException_whenCreateExistingBid() {
-        when(bidRepository.findByAccount(anyString())).thenReturn(Optional.of(FactoryTest.getFakeBidEntity()));
+        when(bidRepository.findByAccount(anyString())).thenReturn(Optional.of(Faker.getFakeBidEntity()));
 
         assertThatExceptionOfType(EntityExistsException.class)
-                .isThrownBy(() -> bidService.createBid(FactoryTest.getFakeBidEntity()));
+                .isThrownBy(() -> bidService.createBid(Faker.getFakeBidEntity()));
     }
 
     @Test
     public void should_findBid_whenGetExistingBidById() {
-        when(bidRepository.findById(anyInt())).thenReturn(Optional.of(FactoryTest.getFakeBidEntity()));
+        when(bidRepository.findById(anyInt())).thenReturn(Optional.of(Faker.getFakeBidEntity()));
 
         BidEntity bidEntity = bidService.getBidById(anyInt());
 
@@ -77,10 +77,10 @@ public class BidServiceTest {
 
     @Test
     public void should_saveBid_whenUpdateExistingBid() {
-        when(bidRepository.findById(any())).thenReturn(Optional.of(FactoryTest.getFakeBidEntity()));
-        when(bidRepository.save(any())).thenReturn(FactoryTest.getFakeBidEntity());
+        when(bidRepository.findById(any())).thenReturn(Optional.of(Faker.getFakeBidEntity()));
+        when(bidRepository.save(any())).thenReturn(Faker.getFakeBidEntity());
 
-        BidEntity bidEntity = bidService.updateBid(FactoryTest.getFakeBidEntity());
+        BidEntity bidEntity = bidService.updateBid(Faker.getFakeBidEntity());
 
         assertThat(bidEntity).isNotNull();
         verify(bidRepository, times(1)).save(any());
@@ -91,12 +91,12 @@ public class BidServiceTest {
         when(bidRepository.findById(any())).thenReturn(Optional.empty());
 
         assertThatExceptionOfType(NoSuchElementException.class)
-                .isThrownBy(() -> bidService.updateBid(FactoryTest.getFakeBidEntity()));
+                .isThrownBy(() -> bidService.updateBid(Faker.getFakeBidEntity()));
     }
 
     @Test
     public void should_deleteBid_whenDeleteExistingBid() {
-        when(bidRepository.findById(anyInt())).thenReturn(Optional.of(FactoryTest.getFakeBidEntity()));
+        when(bidRepository.findById(anyInt())).thenReturn(Optional.of(Faker.getFakeBidEntity()));
 
         bidService.deleteBidById(anyInt());
 
