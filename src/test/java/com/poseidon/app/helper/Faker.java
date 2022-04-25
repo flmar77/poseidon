@@ -57,4 +57,27 @@ public abstract class Faker {
         ruleEntity.setId(1);
         return ruleEntity;
     }
+
+    public static TradeEntity getFakeTradeEntity() {
+        TradeEntity tradeEntity = new TradeEntity("accountTest", "typeTest", 222.22D);
+        tradeEntity.setId(1);
+        tradeEntity.setSellQuantity(null);
+        tradeEntity.setBuyPrice(null);
+        tradeEntity.setSellPrice(null);
+        tradeEntity.setTradeDate(null);
+        tradeEntity.setSecurity(null);
+        tradeEntity.setStatus(null);
+        tradeEntity.setTrader(null);
+        tradeEntity.setBenchmark(null);
+        tradeEntity.setBook(null);
+        tradeEntity.setCreationName(null);
+        tradeEntity.setCreationDate(null);
+        tradeEntity.setRevisionName(null);
+        tradeEntity.setRevisionDate(null);
+        tradeEntity.setDealName(null);
+        tradeEntity.setDealType(null);
+        tradeEntity.setSourceListId(null);
+        tradeEntity.setSide(null);
+        return tradeEntity;
+    }
 }

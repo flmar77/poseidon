@@ -72,7 +72,7 @@ CREATE TABLE trade
     id           INTEGER       NOT NULL AUTO_INCREMENT,
     account      VARCHAR(255)  NOT NULL UNIQUE,
     type         VARCHAR(255)  NOT NULL,
-    buyQuantity  DOUBLE(10, 2) NOT NULL,
+    buyQuantity  DOUBLE(10, 2) NOT NULL CHECK ( buyQuantity >= 0 ),
     sellQuantity DOUBLE,
     buyPrice     DOUBLE,
     sellPrice    DOUBLE,
