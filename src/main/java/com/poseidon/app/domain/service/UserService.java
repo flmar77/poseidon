@@ -68,6 +68,11 @@ public class UserService implements UserDetailsService {
         userRepository.deleteById(id);
     }
 
+    public UserEntity getUserByUserName(String name) {
+        return userRepository.findByUserName(name)
+                .orElseThrow(NoSuchElementException::new);
+    }
+
     private void checkExistenceOfUserById(Integer id) {
         userRepository.findById(id)
                 .orElseThrow(NoSuchElementException::new);

@@ -33,62 +33,39 @@ public class UserController {
         return "/user/home";
     }
 
-    @GetMapping("/user/list")
-    public String getUserList(Model model) {
-        log.debug("get all users");
-        model.addAttribute("userEntities", userService.getAllUsers());
-        return "/user/list";
-    }
-
-    @GetMapping("/user/add")
-    public String getUserAdd(Model model) {
-        model.addAttribute("userEntity", new UserEntity());
-        return "/user/add";
-    }
-
-    @PostMapping("/user/add")
-    public String postUserAdd(@Valid @ModelAttribute UserEntity userEntity,
-                              BindingResult result,
-                              RedirectAttributes redirectAttributes,
-                              Model model) {
-        if (result.hasErrors()) {
-            return "/user/add";
+    @GetMapping("/user/head")
+    public String getUserHead(Authentication authentication) {
+        log.debug("get /user/head as : " + authentication.getName());
+        UserEntity userEntity = userService.getUserByUserName(authentication.getName());
+        if (userEntity.getRole().equals("ADMIN")) {
+            return "redirect:/user/admin/list";
         }
-        try {
-            UserEntity userEntitySaved = userService.createUser(userEntity);
-            log.debug("user created with id : " + userEntitySaved.getId());
-            redirectAttributes.addFlashAttribute("rightCreatedUser", true);
-            return "redirect:/user/home";
-        } catch (EntityExistsException e) {
-            log.debug("user not created because username already exists : " + userEntity.getUserName());
-            model.addAttribute("wrongCreatedUser", true);
-            return "/user/add";
-        }
+        return "redirect:/user/user-update/" + userEntity.getId();
     }
 
-    @GetMapping("/user/update/{id}")
+    @GetMapping("/user/user-update/{id}")
     public String getUserUpdate(@PathVariable("id") Integer id,
                                 Model model,
                                 RedirectAttributes redirectAttributes) {
         try {
             UserEntity userEntity = userService.getUserById(id);
             model.addAttribute("userEntity", userEntity);
-            return "/user/update";
+            return "/user/user-update";
         } catch (NoSuchElementException e) {
             log.debug("can't update missing user with id : " + id);
             redirectAttributes.addFlashAttribute("missingUserId", true);
-            return "redirect:/user/list";
+            return "redirect:/user/home";
         }
     }
 
-    @PostMapping("/user/update/{id}")
+    @PostMapping("/user/user-update/{id}")
     public String postUserUpdate(@PathVariable("id") Integer id,
                                  @Valid @ModelAttribute UserEntity userEntity,
                                  BindingResult result,
                                  Model model,
                                  RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            return "/user/update";
+            return "/user/user-update";
         }
 
         try {
@@ -96,15 +73,87 @@ public class UserController {
             UserEntity userEntitySaved = userService.updateUser(userEntity);
             log.debug("user updated with id : " + userEntitySaved.getId());
             model.addAttribute("rightUpdatedUser", true);
-            return "/user/update";
+            return "/user/user-update";
         } catch (NoSuchElementException e) {
             log.debug("can't update missing user with id : " + id);
             redirectAttributes.addFlashAttribute("missingUserId", true);
-            return "redirect:/user/list";
+            return "redirect:/user/home";
         }
     }
 
-    @GetMapping("/user/delete/{id}")
+    // ADMIN PART
+    @GetMapping("/user/admin/list")
+    public String getUserList(Model model) {
+        log.debug("get all users");
+        model.addAttribute("userEntities", userService.getAllUsers());
+        return "/user/admin/list";
+    }
+
+    @GetMapping("/user/admin/add")
+    public String getUserAdd(Model model) {
+        model.addAttribute("userEntity", new UserEntity());
+        return "/user/admin/add";
+    }
+
+    @PostMapping("/user/admin/add")
+    public String postUserAdd(@Valid @ModelAttribute UserEntity userEntity,
+                              BindingResult result,
+                              RedirectAttributes redirectAttributes,
+                              Model model) {
+        if (result.hasErrors()) {
+            return "/user/admin/add";
+        }
+        try {
+            UserEntity userEntitySaved = userService.createUser(userEntity);
+            log.debug("user created with id : " + userEntitySaved.getId());
+            redirectAttributes.addFlashAttribute("rightCreatedUser", true);
+            return "redirect:/user/admin/list";
+        } catch (EntityExistsException e) {
+            log.debug("user not created because username already exists : " + userEntity.getUserName());
+            model.addAttribute("wrongCreatedUser", true);
+            return "/user/admin/add";
+        }
+    }
+
+    @GetMapping("/user/admin/update/{id}")
+    public String getUserUpdateAdmin(@PathVariable("id") Integer id,
+                                     Model model,
+                                     RedirectAttributes redirectAttributes) {
+        try {
+            UserEntity userEntity = userService.getUserById(id);
+            model.addAttribute("userEntity", userEntity);
+            return "/user/admin/update";
+        } catch (NoSuchElementException e) {
+            log.debug("can't update missing user with id : " + id);
+            redirectAttributes.addFlashAttribute("missingUserId", true);
+            return "redirect:/user/admin/list";
+        }
+    }
+
+    @PostMapping("/user/admin/update/{id}")
+    public String postUserUpdateAdmin(@PathVariable("id") Integer id,
+                                      @Valid @ModelAttribute UserEntity userEntity,
+                                      BindingResult result,
+                                      Model model,
+                                      RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            return "/user/admin/update";
+        }
+
+        try {
+            userEntity.setId(id);
+            UserEntity userEntitySaved = userService.updateUser(userEntity);
+            log.debug("user updated with id : " + userEntitySaved.getId());
+            model.addAttribute("rightUpdatedUser", true);
+            return "/user/admin/update";
+        } catch (NoSuchElementException e) {
+            log.debug("can't update missing user with id : " + id);
+            redirectAttributes.addFlashAttribute("missingUserId", true);
+            return "redirect:/user/admin/list";
+        }
+    }
+
+    @GetMapping("/user/admin/delete/{id}")
     public String deleteUser(@PathVariable("id") Integer id,
                              RedirectAttributes redirectAttributes) {
         try {
@@ -115,7 +164,7 @@ public class UserController {
             log.debug("can't delete missing user with id : " + id);
             redirectAttributes.addFlashAttribute("missingUserId", true);
         }
-        return "redirect:/user/list";
+        return "redirect:/user/admin/list";
     }
 
 }

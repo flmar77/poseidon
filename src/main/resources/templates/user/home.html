@@ -23,6 +23,8 @@
     <div class="p-1 text-center">
         <h2>Welcome <span th:text="${username}"></span> to your home page</h2>
         <h3 th:if="${rightCreatedUser}" class="text-success p-1">your account has been successfully created !</h3>
+        <h3 th:if="${missingUserId}" class="text-danger p-1">can't update/delete missing user - please go to your user
+            menu</h3>
     </div>
 </div>
 

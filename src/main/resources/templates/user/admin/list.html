@@ -23,12 +23,13 @@
         <h2>User List</h2>
         <h3 th:if="${missingUserId}" class="text-danger p-1">can't update/delete missing user - please choose a new
             one</h3>
+        <h3 th:if="${rightCreatedUser}" class="text-success p-1">user has been successfully added</h3>
         <h3 th:if="${rightDeletedUser}" class="text-success p-1">user has been successfully deleted</h3>
     </div>
 
     <div class="p-1 m-auto w-75">
         <!--suppress HtmlUnknownTarget -->
-        <a href="/user/add" class="btn btn-primary w-100">Add New User</a>
+        <a href="/user/admin/add" class="btn btn-primary w-100">Add New User</a>
     </div>
 
     <div class="p-1">
@@ -49,8 +50,8 @@
                 <td th:text="${userEntity.fullName}"></td>
                 <td th:text="${userEntity.role}"></td>
                 <td class="text-center">
-                    <a th:href="@{/user/update/{id}(id=${userEntity.id})}">Edit</a>&nbsp;|&nbsp;
-                    <a th:href="@{/user/delete/{id}(id=${userEntity.id})}">Delete</a>
+                    <a th:href="@{/user/admin/update/{id}(id=${userEntity.id})}">Edit</a>&nbsp;|&nbsp;
+                    <a th:href="@{/user/admin/delete/{id}(id=${userEntity.id})}">Delete</a>
                 </td>
             </tr>
             </tbody>
