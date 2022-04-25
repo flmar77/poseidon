@@ -1,9 +1,6 @@
 package com.poseidon.app.helper;
 
-import com.poseidon.app.dal.entity.BidEntity;
-import com.poseidon.app.dal.entity.CurveEntity;
-import com.poseidon.app.dal.entity.RatingEntity;
-import com.poseidon.app.dal.entity.UserEntity;
+import com.poseidon.app.dal.entity.*;
 
 public abstract class Faker {
 
@@ -53,5 +50,11 @@ public abstract class Faker {
         RatingEntity ratingEntity = new RatingEntity(1, "moodysRatingTest", "sandPratingTest", "fitchRatingTest");
         ratingEntity.setId(1);
         return ratingEntity;
+    }
+
+    public static RuleEntity getFakeRuleEntity() {
+        RuleEntity ruleEntity = new RuleEntity("nameTest", "descriptionTest", "jsonTest", "templateTest", "sqlStrTest", "sqlPartTest");
+        ruleEntity.setId(1);
+        return ruleEntity;
     }
 }

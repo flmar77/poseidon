@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org"
+      lang="en-us">
+<head>
+    <meta charset="utf-8"/>
+    <title>Poseidon - Add Rule</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+            integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<!-- navbar -->
+<div th:replace="a.fragments/header :: header"></div>
+
+<div class="container-lg p-3 bg-light">
+
+    <div class="m-auto w-50">
+
+        <div class="text-center">
+            <h2 class="p-1">Add New Rule</h2>
+            <h3 th:if="${wrongCreatedRule}" class="text-danger p-1">name already exists - please choose a new
+                one</h3>
+        </div>
+
+        <div class="w-100 m-auto">
+
+            <form th:action="@{/rule/add}" th:object="${ruleEntity}" method="post">
+
+                <div class="form-group p-1">
+                    <label for="name" class="form-label">name</label>
+                    <input type="text" th:field="*{name}" id="name" placeholder="name"
+                           class="form-control" autofocus="autofocus"/>
+                    <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                </div>
+
+                <div class="form-group p-1">
+                    <label for="description" class="form-label">description</label>
+                    <input type="text" th:field="*{description}" id="description" placeholder="description"
+                           class="form-control"/>
+                    <p class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
+                </div>
+
+                <div class="form-group p-1">
+                    <label for="json" class="form-label">json</label>
+                    <input type="text" th:field="*{json}" id="json"
+                           placeholder="json" class="form-control"/>
+                    <p class="text-danger" th:if="${#fields.hasErrors('json')}" th:errors="*{json}"></p>
+                </div>
+
+                <div class="form-group p-1">
+                    <label for="template" class="form-label">template</label>
+                    <input type="text" th:field="*{template}" id="template"
+                           placeholder="template" class="form-control"/>
+                    <p class="text-danger" th:if="${#fields.hasErrors('template')}" th:errors="*{template}"></p>
+                </div>
+
+                <div class="form-group p-1">
+                    <label for="sqlStr" class="form-label">sqlStr</label>
+                    <input type="text" th:field="*{sqlStr}" id="sqlStr"
+                           placeholder="sqlStr" class="form-control"/>
+                    <p class="text-danger" th:if="${#fields.hasErrors('sqlStr')}" th:errors="*{sqlStr}"></p>
+                </div>
+
+                <div class="form-group p-1">
+                    <label for="sqlPart" class="form-label">sqlPart</label>
+                    <input type="text" th:field="*{sqlPart}" id="sqlPart"
+                           placeholder="sqlPart" class="form-control"/>
+                    <p class="text-danger" th:if="${#fields.hasErrors('sqlPart')}" th:errors="*{sqlPart}"></p>
+                </div>
+
+                <div class="form-group p-1">
+                    <div class="d-flex justify-content-between">
+                        <a class="btn btn-danger w-25" href="/rule/list">Cancel</a>
+                        <input class="btn btn-primary w-50" type="submit" value="Add Rule"/>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>
