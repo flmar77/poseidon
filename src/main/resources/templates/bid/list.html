@@ -4,7 +4,7 @@
       lang="en-us">
 <head>
     <meta charset="utf-8"/>
-    <title>Poseidon - Trade list</title>
+    <title>Poseidon - Bid list</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
@@ -20,16 +20,16 @@
 
 <div class="container-lg p-3 bg-light">
     <div class="p-1 text-center">
-        <h2>Trade List</h2>
-        <h3 th:if="${missingTradeId}" class="text-danger p-1">can't update/delete missing trade - please choose a new
+        <h2>Bid List</h2>
+        <h3 th:if="${missingBidId}" class="text-danger p-1">can't update/delete missing bid - please choose a new
             one</h3>
-        <h3 th:if="${rightCreatedTrade}" class="text-success p-1">trade has been successfully added</h3>
-        <h3 th:if="${rightDeletedTrade}" class="text-success p-1">trade has been successfully deleted</h3>
+        <h3 th:if="${rightCreatedBid}" class="text-success p-1">bid has been successfully added</h3>
+        <h3 th:if="${rightDeletedBid}" class="text-success p-1">bid has been successfully deleted</h3>
     </div>
 
     <div class="p-1 m-auto w-75">
         <!--suppress HtmlUnknownTarget -->
-        <a href="/trade/add" class="btn btn-primary w-100">Add New Trade</a>
+        <a href="/bid/add" class="btn btn-primary w-100">Add New Bid</a>
     </div>
 
     <div class="p-1">
@@ -39,19 +39,19 @@
                 <th>Id</th>
                 <th>account</th>
                 <th>type</th>
-                <th>buyQuantity</th>
+                <th>bidQuantity</th>
                 <th>Action</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="tradeEntity : ${tradeEntities}">
-                <td th:text="${tradeEntity.id}"></td>
-                <td th:text="${tradeEntity.account}"></td>
-                <td th:text="${tradeEntity.type}"></td>
-                <td th:text="${tradeEntity.buyQuantity}"></td>
+            <tr th:each="bidEntity : ${bidEntities}">
+                <td th:text="${bidEntity.id}"></td>
+                <td th:text="${bidEntity.account}"></td>
+                <td th:text="${bidEntity.type}"></td>
+                <td th:text="${bidEntity.bidQuantity}"></td>
                 <td class="text-center">
-                    <a th:href="@{/trade/update/{id}(id=${tradeEntity.id})}">Edit</a>&nbsp;|&nbsp;
-                    <a th:href="@{/trade/delete/{id}(id=${tradeEntity.id})}">Delete</a>
+                    <a th:href="@{/bid/update/{id}(id=${bidEntity.id})}">Edit</a>&nbsp;|&nbsp;
+                    <a th:href="@{/bid/delete/{id}(id=${bidEntity.id})}">Delete</a>
                 </td>
             </tr>
             </tbody>

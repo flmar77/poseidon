@@ -4,7 +4,7 @@
       lang="en-us">
 <head>
     <meta charset="utf-8"/>
-    <title>Poseidon - Trade update</title>
+    <title>Poseidon - Bid update</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
@@ -23,13 +23,13 @@
     <div class="m-auto w-50">
 
         <div class="text-center">
-            <h2 class="p-1">Update Trade</h2>
-            <h3 th:if="${rightUpdatedTrade}" class="text-success p-1">Trade has been successfully updated</h3>
+            <h2 class="p-1">Update Bid</h2>
+            <h3 th:if="${rightUpdatedBid}" class="text-success p-1">Bid has been successfully updated</h3>
         </div>
 
         <div class="w-100 m-auto">
 
-            <form th:action="@{/trade/update/{id}(id=${tradeEntity.id})}" th:object="${tradeEntity}" method="post">
+            <form th:action="@{/bid/update/{id}(id=${bidEntity.id})}" th:object="${bidEntity}" method="post">
 
                 <div class="form-group p-1">
                     <label for="account" class="form-label">account</label>
@@ -46,17 +46,17 @@
                 </div>
 
                 <div class="form-group p-1">
-                    <label for="buyQuantity" class="form-label">buyQuantity</label>
-                    <input type="number" step="0.01" th:field="*{buyQuantity}" id="buyQuantity"
-                           placeholder="buyQuantity" class="form-control"/>
-                    <p class="text-danger" th:if="${#fields.hasErrors('buyQuantity')}" th:errors="*{buyQuantity}"></p>
+                    <label for="bidQuantity" class="form-label">bidQuantity</label>
+                    <input type="number" step="0.01" th:field="*{bidQuantity}" id="bidQuantity"
+                           placeholder="bidQuantity" class="form-control"/>
+                    <p class="text-danger" th:if="${#fields.hasErrors('bidQuantity')}" th:errors="*{bidQuantity}"></p>
                 </div>
 
                 <div class="form-group p-1">
                     <div class="d-flex justify-content-between">
                         <!--suppress HtmlUnknownTarget -->
-                        <a class="btn btn-danger w-25" href="/trade/list">Cancel</a>
-                        <input class="btn btn-primary w-50" type="submit" value="Update Trade"/>
+                        <a class="btn btn-danger w-25" href="/bid/list">Cancel</a>
+                        <input class="btn btn-primary w-50" type="submit" value="Update Bid"/>
                     </div>
                 </div>
 

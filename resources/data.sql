@@ -1,10 +1,10 @@
-DROP TABLE IF EXISTS bidlist CASCADE;
-CREATE TABLE bidlist
+DROP TABLE IF EXISTS bid CASCADE;
+CREATE TABLE bid
 (
-    bidListId    INTEGER     NOT NULL AUTO_INCREMENT,
-    account      VARCHAR(30) NOT NULL,
-    type         VARCHAR(30) NOT NULL,
-    bidQuantity  DOUBLE,
+    id           INTEGER       NOT NULL AUTO_INCREMENT,
+    account      VARCHAR(255)  NOT NULL UNIQUE,
+    type         VARCHAR(255)  NOT NULL,
+    bidQuantity  DOUBLE(10, 2) NOT NULL CHECK ( bidQuantity >= 0 ),
     askQuantity  DOUBLE,
     bid          DOUBLE,
     ask          DOUBLE,
@@ -24,17 +24,17 @@ CREATE TABLE bidlist
     sourceListId VARCHAR(125),
     side         VARCHAR(125),
 
-    PRIMARY KEY (bidListId)
+    PRIMARY KEY (id)
 );
 
-DROP TABLE IF EXISTS curvepoint CASCADE;
-CREATE TABLE curvepoint
+DROP TABLE IF EXISTS curve CASCADE;
+CREATE TABLE curve
 (
-    id           INTEGER NOT NULL AUTO_INCREMENT,
-    curveId      INTEGER,
+    id           INTEGER       NOT NULL AUTO_INCREMENT,
+    curveId      INTEGER(8)    NOT NULL UNIQUE CHECK ( curveId >= 0 ),
+    term         DOUBLE(10, 2) NOT NULL,
+    value        DOUBLE(10, 2) NOT NULL,
     asOfDate     TIMESTAMP,
-    term         DOUBLE,
-    value        DOUBLE,
     creationDate TIMESTAMP,
 
     PRIMARY KEY (id)
@@ -43,25 +43,25 @@ CREATE TABLE curvepoint
 DROP TABLE IF EXISTS rating CASCADE;
 CREATE TABLE rating
 (
-    id           INTEGER NOT NULL AUTO_INCREMENT,
-    moodysRating VARCHAR(125),
-    sandPrating  VARCHAR(125),
-    fitchRating  VARCHAR(125),
-    orderNumber  INTEGER,
+    id           INTEGER      NOT NULL AUTO_INCREMENT,
+    orderNumber  INTEGER(8)   NOT NULL UNIQUE CHECK ( orderNumber >= 0),
+    moodysRating VARCHAR(255) NOT NULL,
+    sandPrating  VARCHAR(255) NOT NULL,
+    fitchRating  VARCHAR(255) NOT NULL,
 
     PRIMARY KEY (id)
 );
 
-DROP TABLE IF EXISTS rulename CASCADE;
-CREATE TABLE rulename
+DROP TABLE IF EXISTS rule CASCADE;
+CREATE TABLE rule
 (
-    id          INTEGER NOT NULL AUTO_INCREMENT,
-    name        VARCHAR(125),
-    description VARCHAR(125),
-    json        VARCHAR(125),
-    template    VARCHAR(512),
-    sqlStr      VARCHAR(125),
-    sqlPart     VARCHAR(125),
+    id          INTEGER      NOT NULL AUTO_INCREMENT,
+    name        VARCHAR(255) NOT NULL UNIQUE,
+    description VARCHAR(255) NOT NULL,
+    json        VARCHAR(255) NOT NULL,
+    template    VARCHAR(255) NOT NULL,
+    sqlStr      VARCHAR(255) NOT NULL,
+    sqlPart     VARCHAR(255) NOT NULL,
 
     PRIMARY KEY (id)
 );
@@ -69,10 +69,10 @@ CREATE TABLE rulename
 DROP TABLE IF EXISTS trade CASCADE;
 CREATE TABLE trade
 (
-    tradeId      INTEGER     NOT NULL AUTO_INCREMENT,
-    account      VARCHAR(30) NOT NULL,
-    type         VARCHAR(30) NOT NULL,
-    buyQuantity  DOUBLE,
+    id           INTEGER       NOT NULL AUTO_INCREMENT,
+    account      VARCHAR(255)  NOT NULL UNIQUE,
+    type         VARCHAR(255)  NOT NULL,
+    buyQuantity  DOUBLE(10, 2) NOT NULL CHECK ( buyQuantity >= 0 ),
     sellQuantity DOUBLE,
     buyPrice     DOUBLE,
     sellPrice    DOUBLE,
@@ -91,22 +91,22 @@ CREATE TABLE trade
     sourceListId VARCHAR(125),
     side         VARCHAR(125),
 
-    PRIMARY KEY (tradeId)
+    PRIMARY KEY (id)
 );
 
-DROP TABLE IF EXISTS users CASCADE;
-CREATE TABLE users
+DROP TABLE IF EXISTS user CASCADE;
+CREATE TABLE user
 (
-    id       INTEGER NOT NULL AUTO_INCREMENT,
-    userName VARCHAR(125),
-    password VARCHAR(125),
-    fullName VARCHAR(125),
-    role     VARCHAR(125),
+    id       INTEGER      NOT NULL AUTO_INCREMENT,
+    userName VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    fullName VARCHAR(255) NOT NULL,
+    role     VARCHAR(255) NOT NULL,
 
     PRIMARY KEY (id)
 );
 
-insert into Users(fullname, username, password, role)
-values ('Administrator', 'admin', 'admin', 'ADMIN');
-insert into Users(fullname, username, password, role)
-values ('User', 'user', 'user', 'USER');
+insert into user(fullName, userName, password, role)
+values ('Administrator', 'admin', '$2y$10$HDwKmPe5eemXFtwk0myEa.lKfIr7rem6arw8DfmnharShY4qVKSQq', 'ADMIN');
+insert into user(fullName, userName, password, role)
+values ('User', 'user', '$2y$10$9AJN38g1qI1DDRyC/dDFzeYqG2.S4O/AUIEcNMw/omAZwQ.eakqLu', 'USER');
