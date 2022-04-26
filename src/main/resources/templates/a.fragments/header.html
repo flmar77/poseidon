@@ -24,7 +24,7 @@
     <nav>
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link link-dark" href="/user/home">home</a>
+                <a class="nav-link link-secondary" href="/user/home">home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link link-dark" href="/bid/list">bid</a>
@@ -42,10 +42,10 @@
                 <a class="nav-link link-dark" href="/trade/list">trade</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link link-dark" href="/user/head">user</a>
+                <a class="nav-link link-danger" href="/user/head">user</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link link-dark" href="javascript: document.logoutForm.submit()">logoff</a>
+                <a class="nav-link link-info" href="javascript: document.logoutForm.submit()">logoff</a>
                 <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
                     <input hidden type="submit" value="Sign Out"/>
                 </form>

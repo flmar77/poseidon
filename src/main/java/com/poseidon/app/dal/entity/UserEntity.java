@@ -2,6 +2,7 @@ package com.poseidon.app.dal.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -17,16 +18,20 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank(message = "Username is mandatory")
+    @NotBlank(message = "userName is mandatory")
+    @Length(max = 255, message = "userName must be 255 char max")
     private String userName;
 
-    @NotBlank(message = "Password is mandatory")
+    @NotBlank(message = "password is mandatory")
+    @Length(max = 255, message = "password must be 255 char max")
     private String password;
 
-    @NotBlank(message = "FullName is mandatory")
+    @NotBlank(message = "fullName is mandatory")
+    @Length(max = 255, message = "fullName must be 255 char max")
     private String fullName;
 
-    @NotBlank(message = "Role is mandatory")
+    @NotBlank(message = "role is mandatory")
+    @Length(max = 255, message = "role must be 255 char max")
     private String role;
 
 }

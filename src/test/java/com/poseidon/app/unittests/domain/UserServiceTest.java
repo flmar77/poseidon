@@ -136,4 +136,19 @@ public class UserServiceTest {
                 .isThrownBy(() -> userService.deleteUserById(anyInt()));
     }
 
+    @Test
+    public void should_returnSomething_whenGetExistingUserByUserName() {
+        when(userRepository.findByUserName(anyString())).thenReturn(Optional.of(Faker.getFakeUserEntity()));
+
+        assertThat(userService.getUserByUserName(anyString())).isNotNull();
+    }
+
+    @Test
+    public void should_throwNoSuchElementException_whenGetMissingUserByUserName() {
+        when(userRepository.findByUserName(anyString())).thenReturn(Optional.empty());
+
+        assertThatExceptionOfType(NoSuchElementException.class)
+                .isThrownBy(() -> userService.getUserByUserName(anyString()));
+    }
+
 }

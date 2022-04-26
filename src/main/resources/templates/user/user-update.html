@@ -31,21 +31,20 @@
 
             <form th:action="@{/user/user-update/{id}(id=${userEntity.id})}" th:object="${userEntity}" method="post">
 
-                <div class="form-group">
+                <div class="form-group p-1">
+                    <label for="userName" class="form-label">User Name</label>
+                    <input type="text" th:field="*{userName}" id="userName" th:placeholder="#{userName}"
+                           class="form-control" readonly/>
+                </div>
+
+                <div class="form-group p-1">
                     <label for="fullName" class="form-label">Full Name</label>
                     <input type="text" th:field="*{fullName}" id="fullName" placeholder="fullName"
                            class="form-control" autofocus="autofocus"/>
                     <p class="text-danger" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></p>
                 </div>
 
-                <div class="form-group">
-                    <label for="userName" class="form-label">User Name</label>
-                    <input type="text" th:field="*{userName}" id="userName" placeholder="userName"
-                           class="form-control"/>
-                    <p class="text-danger" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
-                </div>
-
-                <div class="form-group">
+                <div class="form-group p-1">
                     <label for="password" class="form-label">Password</label>
                     <input type="password" th:field="*{password}" id="password"
                            placeholder="new password (old one could be reenter)"
@@ -62,7 +61,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group p-1">
                     <div class="d-flex justify-content-between">
                         <!--suppress HtmlUnknownTarget -->
                         <a class="btn btn-danger w-25" href="/user/home">Cancel</a>

@@ -60,7 +60,7 @@ public class VisitorController {
                                     RedirectAttributes redirectAttributes,
                                     Model model) {
         if (result.hasErrors()) {
-            return "create-account";
+            return "/create-account";
         }
         try {
             UserEntity userEntitySaved = userService.createUser(userEntity);
