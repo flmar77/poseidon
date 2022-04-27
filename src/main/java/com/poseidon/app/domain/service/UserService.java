@@ -68,7 +68,7 @@ public class UserService implements UserDetailsService {
         userRepository.deleteById(id);
     }
 
-    public UserEntity getUserByUserName(String name) {
+    public UserEntity getUserByUserName(String name) throws NoSuchElementException {
         return userRepository.findByUserName(name)
                 .orElseThrow(NoSuchElementException::new);
     }

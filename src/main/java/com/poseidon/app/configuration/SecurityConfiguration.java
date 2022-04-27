@@ -32,17 +32,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/log*").permitAll()
                 .antMatchers("/create-account").permitAll()
-                .antMatchers("/api/**").permitAll()
+                //.antMatchers("/api/**").permitAll()
                 .antMatchers("/user/admin/*").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .failureUrl("/login-error")
+                .failureUrl("/login-error-account")
                 .defaultSuccessUrl("/user/home")
                 .and()
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/logout"));
+                .oauth2Login()
+                .loginPage("/login")
+                .failureUrl("/login-error-oauth2")
+                .defaultSuccessUrl("/user/home")
+                .and()
+                .logout()
+                .logoutSuccessUrl("/logout");
     }
 
 }

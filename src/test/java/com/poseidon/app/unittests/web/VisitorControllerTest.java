@@ -49,8 +49,15 @@ public class VisitorControllerTest {
     }
 
     @Test
-    public void should_redirectLogin_whenGetLoginError() throws Exception {
-        mockMvc.perform(get("/login-error"))
+    public void should_redirectLogin_whenGetLoginErrorAccount() throws Exception {
+        mockMvc.perform(get("/login-error-account"))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/login"));
+    }
+
+    @Test
+    public void should_redirectLogin_whenGetLoginErrorOauth2() throws Exception {
+        mockMvc.perform(get("/login-error-oauth2"))
                 .andExpect(status().isFound())
                 .andExpect(view().name("redirect:/login"));
     }

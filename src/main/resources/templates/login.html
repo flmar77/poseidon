@@ -16,17 +16,21 @@
 </head>
 <body>
 <div class="container-lg p-3 bg-light">
+
     <div class="bg-secondary w-100 p-1 text-center m-auto">
         <h1>Poseidon</h1>
     </div>
 
-    <div class="m-auto w-50">
-
+    <div class="m-auto w-50 p-1">
         <div class="text-center">
-            <h2 class="p-1">Please Log in</h2>
-            <h3 th:if="${loginError}" class="text-danger p-1">Wrong user or password</h3>
             <h3 th:if="${loginLogout}" class="text-success p-1">You've been successfully logged off</h3>
+            <h2 class="p-1">Please Log in</h2>
         </div>
+    </div>
+
+    <div class="m-auto w-50 p-2 border border-5">
+
+        <h2 class="p-1">1/ with your app account</h2>
 
         <form th:action="@{/login}" method="post">
             <!-- Email input -->
@@ -47,6 +51,25 @@
             </div>
 
         </form>
+
+        <div class="text-center">
+            <h3 th:if="${loginErrorAccount}" class="text-danger p-1">Wrong user or password</h3>
+        </div>
+
+    </div>
+
+    <div class="m-auto w-50 p-2 mt-3 border border-5">
+
+        <h2 class="p-1">2/ with Oauth2</h2>
+
+        <p th:each="url : ${urls}">
+            <a th:text="${url.key}" th:href="${url.value}" class="btn btn-primary w-50">Client</a>
+        </p>
+
+        <div class="text-center">
+            <h3 th:if="${loginErrorOauth2}" class="text-danger p-1">Oauth2 failed</h3>
+        </div>
+
     </div>
 
 </div>

@@ -74,6 +74,16 @@ public class UserControllerTest {
 
     @Test
     @WithMockUser
+    public void should_returnUserNoUpdate_whenGetUserHeadAsOauth2User() throws Exception {
+        when(userService.getUserByUserName(anyString())).thenThrow(NoSuchElementException.class);
+
+        mockMvc.perform(get("/user/head"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/user/user-noupdate"));
+    }
+
+    @Test
+    @WithMockUser
     public void should_returnUserUserUpdate_whenGetExistingUserUserUpdate() throws Exception {
         when(userService.getUserById(anyInt())).thenReturn(Faker.getFakeUserEntity());
 
