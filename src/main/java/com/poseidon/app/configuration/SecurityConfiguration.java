@@ -3,6 +3,7 @@ package com.poseidon.app.configuration;
 import com.poseidon.app.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -32,9 +33,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/log*").permitAll()
                 .antMatchers("/create-account").permitAll()
-                //.antMatchers("/api/**").permitAll()
                 .antMatchers("/user/admin/*").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
+
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -45,9 +46,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .failureUrl("/login-error-oauth2")
                 .defaultSuccessUrl("/user/home")
+
                 .and()
                 .logout()
-                .logoutSuccessUrl("/logout");
+                .logoutSuccessUrl("/logout")
+                
+                .and()
+                .httpBasic(Customizer.withDefaults());
     }
-
 }

@@ -64,7 +64,8 @@ public class VisitorControllerTest {
 
     @Test
     public void should_redirectLogin_whenGetLoginLogout() throws Exception {
-        mockMvc.perform(get("/logout"))
+        mockMvc.perform(get("/logout")
+                        .with(csrf()))
                 .andExpect(status().isFound())
                 .andExpect(view().name("redirect:/login"));
     }
