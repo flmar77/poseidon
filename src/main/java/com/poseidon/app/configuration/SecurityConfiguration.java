@@ -38,7 +38,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/log*").permitAll()
                 .antMatchers("/create-account").permitAll()
                 .antMatchers("/user/admin/*").hasAuthority("ADMIN")
-                // TODO : nope !
                 .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated()
 
