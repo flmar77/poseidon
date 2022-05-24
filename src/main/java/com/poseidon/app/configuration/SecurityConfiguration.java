@@ -3,7 +3,6 @@ package com.poseidon.app.configuration;
 import com.poseidon.app.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,12 +27,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
+
         http
+                .csrf()
+                .ignoringAntMatchers("/api/**")
+
+                .and()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/log*").permitAll()
                 .antMatchers("/create-account").permitAll()
                 .antMatchers("/user/admin/*").hasAuthority("ADMIN")
+                // TODO : nope !
+                .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
@@ -41,6 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .failureUrl("/login-error-account")
                 .defaultSuccessUrl("/user/home")
+
                 .and()
                 .oauth2Login()
                 .loginPage("/login")
@@ -49,9 +56,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .logout()
-                .logoutSuccessUrl("/logout")
-                
-                .and()
-                .httpBasic(Customizer.withDefaults());
+                .logoutSuccessUrl("/logout");
     }
 }
