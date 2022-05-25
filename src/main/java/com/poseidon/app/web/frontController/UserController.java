@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @GetMapping("/user/head")
-    public String getUserHead(Authentication authentication) {
+    public String getUserHead(Authentication authentication, Model model) {
         log.debug("get /user/head as : " + authentication.getName());
         try {
             UserEntity userEntity = userService.getUserByUserName(authentication.getName());
@@ -46,6 +46,7 @@ public class UserController {
             }
             return "redirect:/user/user-update/" + userEntity.getId();
         } catch (NoSuchElementException e) {
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/user/user-noupdate";
         }
 
@@ -54,10 +55,11 @@ public class UserController {
     @GetMapping("/user/user-update/{id}")
     public String getUserUpdate(@PathVariable("id") Integer id,
                                 Model model,
-                                RedirectAttributes redirectAttributes) {
+                                RedirectAttributes redirectAttributes, Authentication authentication) {
         try {
             UserEntity userEntity = userService.getUserById(id);
             model.addAttribute("userEntity", userEntity);
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/user/user-update";
         } catch (NoSuchElementException e) {
             log.debug("can't update missing user with id : " + id);
@@ -71,8 +73,9 @@ public class UserController {
                                  @Valid @ModelAttribute UserEntity userEntity,
                                  BindingResult result,
                                  Model model,
-                                 RedirectAttributes redirectAttributes) {
+                                 RedirectAttributes redirectAttributes, Authentication authentication) {
         if (result.hasErrors()) {
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/user/user-update";
         }
 
@@ -81,6 +84,7 @@ public class UserController {
             UserEntity userEntitySaved = userService.updateUser(userEntity);
             log.debug("user updated with id : " + userEntitySaved.getId());
             model.addAttribute("rightUpdatedUser", true);
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/user/user-update";
         } catch (NoSuchElementException e) {
             log.debug("can't update missing user with id : " + id);
@@ -91,15 +95,17 @@ public class UserController {
 
     // ADMIN PART
     @GetMapping("/user/admin/list")
-    public String getUserList(Model model) {
+    public String getUserList(Model model, Authentication authentication) {
         log.debug("get all users");
         model.addAttribute("userEntities", userService.getAllUsers());
+        model.addAttribute("username", UserHelper.getUserName(authentication));
         return "/user/admin/list";
     }
 
     @GetMapping("/user/admin/add")
-    public String getUserAdd(Model model) {
+    public String getUserAdd(Model model, Authentication authentication) {
         model.addAttribute("userEntity", new UserEntity());
+        model.addAttribute("username", UserHelper.getUserName(authentication));
         return "/user/admin/add";
     }
 
@@ -107,8 +113,9 @@ public class UserController {
     public String postUserAdd(@Valid @ModelAttribute UserEntity userEntity,
                               BindingResult result,
                               RedirectAttributes redirectAttributes,
-                              Model model) {
+                              Model model, Authentication authentication) {
         if (result.hasErrors()) {
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/user/admin/add";
         }
         try {
@@ -119,6 +126,7 @@ public class UserController {
         } catch (EntityExistsException e) {
             log.debug("user not created because username already exists : " + userEntity.getUserName());
             model.addAttribute("wrongCreatedUser", true);
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/user/admin/add";
         }
     }
@@ -126,10 +134,11 @@ public class UserController {
     @GetMapping("/user/admin/update/{id}")
     public String getUserUpdateAdmin(@PathVariable("id") Integer id,
                                      Model model,
-                                     RedirectAttributes redirectAttributes) {
+                                     RedirectAttributes redirectAttributes, Authentication authentication) {
         try {
             UserEntity userEntity = userService.getUserById(id);
             model.addAttribute("userEntity", userEntity);
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/user/admin/update";
         } catch (NoSuchElementException e) {
             log.debug("can't update missing user with id : " + id);
@@ -143,8 +152,9 @@ public class UserController {
                                       @Valid @ModelAttribute UserEntity userEntity,
                                       BindingResult result,
                                       Model model,
-                                      RedirectAttributes redirectAttributes) {
+                                      RedirectAttributes redirectAttributes, Authentication authentication) {
         if (result.hasErrors()) {
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/user/admin/update";
         }
 
@@ -153,6 +163,7 @@ public class UserController {
             UserEntity userEntitySaved = userService.updateUser(userEntity);
             log.debug("user updated with id : " + userEntitySaved.getId());
             model.addAttribute("rightUpdatedUser", true);
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/user/admin/update";
         } catch (NoSuchElementException e) {
             log.debug("can't update missing user with id : " + id);

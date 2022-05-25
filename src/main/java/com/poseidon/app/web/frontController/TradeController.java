@@ -1,9 +1,11 @@
 package com.poseidon.app.web.frontController;
 
 import com.poseidon.app.dal.entity.TradeEntity;
+import com.poseidon.app.domain.helper.UserHelper;
 import com.poseidon.app.domain.service.TradeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,15 +27,17 @@ public class TradeController {
     private TradeService tradeService;
 
     @GetMapping("/trade/list")
-    public String getTradeList(Model model) {
+    public String getTradeList(Model model, Authentication authentication) {
         log.debug("get all trades");
         model.addAttribute("tradeEntities", tradeService.getAllTrades());
+        model.addAttribute("username", UserHelper.getUserName(authentication));
         return "/trade/list";
     }
 
     @GetMapping("/trade/add")
-    public String getTradeAdd(Model model) {
+    public String getTradeAdd(Model model, Authentication authentication) {
         model.addAttribute("tradeEntity", new TradeEntity());
+        model.addAttribute("username", UserHelper.getUserName(authentication));
         return "/trade/add";
     }
 
@@ -41,8 +45,9 @@ public class TradeController {
     public String postTradeAdd(@Valid @ModelAttribute TradeEntity tradeEntity,
                                BindingResult result,
                                RedirectAttributes redirectAttributes,
-                               Model model) {
+                               Model model, Authentication authentication) {
         if (result.hasErrors()) {
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/trade/add";
         }
         try {
@@ -53,6 +58,7 @@ public class TradeController {
         } catch (EntityExistsException e) {
             log.debug("trade not created because account already exists : " + tradeEntity.getAccount());
             model.addAttribute("wrongCreatedTrade", true);
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/trade/add";
         }
     }
@@ -60,10 +66,11 @@ public class TradeController {
     @GetMapping("/trade/update/{id}")
     public String getTradeUpdate(@PathVariable("id") Integer id,
                                  Model model,
-                                 RedirectAttributes redirectAttributes) {
+                                 RedirectAttributes redirectAttributes, Authentication authentication) {
         try {
             TradeEntity tradeEntity = tradeService.getTradeById(id);
             model.addAttribute("tradeEntity", tradeEntity);
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/trade/update";
         } catch (NoSuchElementException e) {
             log.debug("can't update missing trade with id : " + id);
@@ -77,8 +84,9 @@ public class TradeController {
                                   @Valid @ModelAttribute TradeEntity tradeEntity,
                                   BindingResult result,
                                   Model model,
-                                  RedirectAttributes redirectAttributes) {
+                                  RedirectAttributes redirectAttributes, Authentication authentication) {
         if (result.hasErrors()) {
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/trade/update";
         }
 
@@ -87,6 +95,7 @@ public class TradeController {
             TradeEntity tradeEntitySaved = tradeService.updateTrade(tradeEntity);
             log.debug("trade updated with id : " + tradeEntitySaved.getId());
             model.addAttribute("rightUpdatedTrade", true);
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/trade/update";
         } catch (NoSuchElementException e) {
             log.debug("can't update missing trade with id : " + id);
