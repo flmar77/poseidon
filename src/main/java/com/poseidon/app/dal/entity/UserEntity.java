@@ -1,5 +1,6 @@
 package com.poseidon.app.dal.entity;
 
+import com.poseidon.app.configuration.ValidPassword;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -24,6 +25,7 @@ public class UserEntity {
 
     @NotBlank(message = "password is mandatory")
     @Length(max = 255, message = "password must be 255 char max")
+    @ValidPassword
     private String password;
 
     @NotBlank(message = "fullName is mandatory")
