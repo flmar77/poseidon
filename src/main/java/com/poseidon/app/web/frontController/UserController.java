@@ -1,6 +1,7 @@
 package com.poseidon.app.web.frontController;
 
 import com.poseidon.app.dal.entity.UserEntity;
+import com.poseidon.app.domain.helper.UserHelper;
 import com.poseidon.app.domain.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,10 @@ public class UserController {
     @GetMapping("/user/home")
     public String getUserHome(Authentication authentication,
                               Model model) {
-        log.debug("get /user/home as : " + authentication.getName());
-        model.addAttribute("username", authentication.getName());
+
+        String userName = UserHelper.getUserName(authentication);
+        log.debug("get /user/home as : " + userName);
+        model.addAttribute("username", userName);
         return "/user/home";
     }
 
