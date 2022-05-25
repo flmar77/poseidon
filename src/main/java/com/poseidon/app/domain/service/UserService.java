@@ -16,6 +16,7 @@ import javax.persistence.EntityExistsException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -41,7 +42,9 @@ public class UserService implements UserDetailsService {
     }
 
     public List<UserEntity> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findAll().stream()
+                .peek(userEntity -> userEntity.setPassword(""))
+                .collect(Collectors.toList());
     }
 
     public UserEntity createUser(UserEntity userEntity) throws EntityExistsException {
@@ -68,7 +71,7 @@ public class UserService implements UserDetailsService {
         userRepository.deleteById(id);
     }
 
-    public UserEntity getUserByUserName(String name) {
+    public UserEntity getUserByUserName(String name) throws NoSuchElementException {
         return userRepository.findByUserName(name)
                 .orElseThrow(NoSuchElementException::new);
     }

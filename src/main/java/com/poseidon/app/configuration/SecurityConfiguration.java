@@ -27,21 +27,34 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
+
         http
+                .csrf()
+                .ignoringAntMatchers("/api/**")
+
+                .and()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/log*").permitAll()
                 .antMatchers("/create-account").permitAll()
                 .antMatchers("/user/admin/*").hasAuthority("ADMIN")
+                .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated()
+
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .failureUrl("/login-error")
+                .failureUrl("/login-error-account")
                 .defaultSuccessUrl("/user/home")
-                .and()
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/logout"));
-    }
 
+                .and()
+                .oauth2Login()
+                .loginPage("/login")
+                .failureUrl("/login-error-oauth2")
+                .defaultSuccessUrl("/user/home")
+
+                .and()
+                .logout()
+                .logoutSuccessUrl("/logout");
+    }
 }

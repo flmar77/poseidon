@@ -36,11 +36,16 @@ public class UserController {
     @GetMapping("/user/head")
     public String getUserHead(Authentication authentication) {
         log.debug("get /user/head as : " + authentication.getName());
-        UserEntity userEntity = userService.getUserByUserName(authentication.getName());
-        if (userEntity.getRole().equals("ADMIN")) {
-            return "redirect:/user/admin/list";
+        try {
+            UserEntity userEntity = userService.getUserByUserName(authentication.getName());
+            if (userEntity.getRole().equals("ADMIN")) {
+                return "redirect:/user/admin/list";
+            }
+            return "redirect:/user/user-update/" + userEntity.getId();
+        } catch (NoSuchElementException e) {
+            return "/user/user-noupdate";
         }
-        return "redirect:/user/user-update/" + userEntity.getId();
+
     }
 
     @GetMapping("/user/user-update/{id}")

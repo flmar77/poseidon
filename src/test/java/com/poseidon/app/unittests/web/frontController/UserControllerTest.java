@@ -1,4 +1,4 @@
-package com.poseidon.app.unittests.web;
+package com.poseidon.app.unittests.web.frontController;
 
 import com.poseidon.app.dal.entity.UserEntity;
 import com.poseidon.app.domain.service.UserService;
@@ -70,6 +70,16 @@ public class UserControllerTest {
         mockMvc.perform(get("/user/head"))
                 .andExpect(status().isFound())
                 .andExpect(view().name("redirect:/user/admin/list"));
+    }
+
+    @Test
+    @WithMockUser
+    public void should_returnUserNoUpdate_whenGetUserHeadAsOauth2User() throws Exception {
+        when(userService.getUserByUserName(anyString())).thenThrow(NoSuchElementException.class);
+
+        mockMvc.perform(get("/user/head"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/user/user-noupdate"));
     }
 
     @Test

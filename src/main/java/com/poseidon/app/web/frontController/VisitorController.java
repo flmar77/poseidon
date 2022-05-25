@@ -4,6 +4,9 @@ import com.poseidon.app.dal.entity.UserEntity;
 import com.poseidon.app.domain.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ResolvableType;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,10 +17,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.EntityExistsException;
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Controller
 public class VisitorController {
+
+    private static final String authorizationRequestBaseUri = "oauth2/authorization";
+    Map<String, String> oauth2AuthenticationUrls = new HashMap<>();
+
+    @Autowired
+    private ClientRegistrationRepository clientRegistrationRepository;
 
     @Autowired
     private UserService userService;
@@ -29,14 +40,35 @@ public class VisitorController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model) {
         log.debug("get login");
+
+        // TODO : improve ?
+        Iterable<ClientRegistration> clientRegistrations = null;
+        ResolvableType resolvableType = ResolvableType.forInstance(clientRegistrationRepository).as(Iterable.class);
+        if (resolvableType != ResolvableType.NONE && ClientRegistration.class.isAssignableFrom(resolvableType.resolveGenerics()[0])) {
+            clientRegistrations = (Iterable<ClientRegistration>) clientRegistrationRepository;
+        }
+
+        if (clientRegistrations != null) {
+            clientRegistrations.forEach(registration ->
+                    oauth2AuthenticationUrls.put(registration.getClientName(),
+                            authorizationRequestBaseUri + "/" + registration.getRegistrationId()));
+            model.addAttribute("urls", oauth2AuthenticationUrls);
+        }
+
         return "/login";
     }
 
-    @GetMapping("/login-error")
-    public String loginError(RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("loginError", true);
+    @GetMapping("/login-error-account")
+    public String loginErrorAccount(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("loginErrorAccount", true);
+        return "redirect:/login";
+    }
+
+    @GetMapping("/login-error-oauth2")
+    public String loginErrorOauth2(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("loginErrorOauth2", true);
         return "redirect:/login";
     }
 

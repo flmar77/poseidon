@@ -1,4 +1,4 @@
-package com.poseidon.app.unittests.web;
+package com.poseidon.app.unittests.web.frontController;
 
 import com.poseidon.app.dal.entity.TradeEntity;
 import com.poseidon.app.domain.service.TradeService;
