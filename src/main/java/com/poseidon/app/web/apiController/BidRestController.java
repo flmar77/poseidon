@@ -94,6 +94,10 @@ public class BidRestController {
             String logAndBodyMessage = "error while putting bid because missing bid with id=" + id;
             log.error(logAndBodyMessage);
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(logAndBodyMessage);
+        } catch (EntityExistsException e) {
+            String logAndBodyMessage = "error while putting bid because already existing bid with account=" + bidEntity.getAccount();
+            log.error(logAndBodyMessage);
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(logAndBodyMessage);
         }
     }
 

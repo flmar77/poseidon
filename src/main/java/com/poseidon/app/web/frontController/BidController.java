@@ -59,7 +59,7 @@ public class BidController {
             redirectAttributes.addFlashAttribute("rightCreatedBid", true);
             return "redirect:/bid/list";
         } catch (EntityExistsException e) {
-            log.debug("bid not created because account already exists : " + bidEntity.getAccount());
+            log.error("bid not created because account already exists : " + bidEntity.getAccount());
             model.addAttribute("wrongCreatedBid", true);
             model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/bid/add";
@@ -77,7 +77,7 @@ public class BidController {
             model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/bid/update";
         } catch (NoSuchElementException e) {
-            log.debug("can't update missing bid with id : " + id);
+            log.error("can't update missing bid with id : " + id);
             redirectAttributes.addFlashAttribute("missingBidId", true);
             return "redirect:/bid/list";
         }
@@ -103,9 +103,14 @@ public class BidController {
             model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/bid/update";
         } catch (NoSuchElementException e) {
-            log.debug("can't update missing bid with id : " + id);
+            log.error("can't update missing bid with id : " + id);
             redirectAttributes.addFlashAttribute("missingBidId", true);
             return "redirect:/bid/list";
+        } catch (EntityExistsException e) {
+            log.error("bid not updated because account already exists : " + bidEntity.getAccount());
+            model.addAttribute("wrongUpdatedBid", true);
+            model.addAttribute("username", UserHelper.getUserName(authentication));
+            return "/bid/update";
         }
     }
 
@@ -117,7 +122,7 @@ public class BidController {
             log.debug("bid deleted with id : " + id);
             redirectAttributes.addFlashAttribute("rightDeletedBid", true);
         } catch (NoSuchElementException e) {
-            log.debug("can't delete missing bid with id : " + id);
+            log.error("can't delete missing bid with id : " + id);
             redirectAttributes.addFlashAttribute("missingBidId", true);
         }
         return "redirect:/bid/list";
