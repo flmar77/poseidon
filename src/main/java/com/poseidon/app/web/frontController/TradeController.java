@@ -56,7 +56,7 @@ public class TradeController {
             redirectAttributes.addFlashAttribute("rightCreatedTrade", true);
             return "redirect:/trade/list";
         } catch (EntityExistsException e) {
-            log.debug("trade not created because account already exists : " + tradeEntity.getAccount());
+            log.error("trade not created because account already exists : " + tradeEntity.getAccount());
             model.addAttribute("wrongCreatedTrade", true);
             model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/trade/add";
@@ -73,7 +73,7 @@ public class TradeController {
             model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/trade/update";
         } catch (NoSuchElementException e) {
-            log.debug("can't update missing trade with id : " + id);
+            log.error("can't update missing trade with id : " + id);
             redirectAttributes.addFlashAttribute("missingTradeId", true);
             return "redirect:/trade/list";
         }
@@ -98,7 +98,7 @@ public class TradeController {
             model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/trade/update";
         } catch (NoSuchElementException e) {
-            log.debug("can't update missing trade with id : " + id);
+            log.error("can't update missing trade with id : " + id);
             redirectAttributes.addFlashAttribute("missingTradeId", true);
             return "redirect:/trade/list";
         }
@@ -112,7 +112,7 @@ public class TradeController {
             log.debug("trade deleted with id : " + id);
             redirectAttributes.addFlashAttribute("rightDeletedTrade", true);
         } catch (NoSuchElementException e) {
-            log.debug("can't delete missing trade with id : " + id);
+            log.error("can't delete missing trade with id : " + id);
             redirectAttributes.addFlashAttribute("missingTradeId", true);
         }
         return "redirect:/trade/list";

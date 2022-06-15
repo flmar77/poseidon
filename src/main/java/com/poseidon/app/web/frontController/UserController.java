@@ -62,7 +62,7 @@ public class UserController {
             model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/user/user-update";
         } catch (NoSuchElementException e) {
-            log.debug("can't update missing user with id : " + id);
+            log.error("can't update missing user with id : " + id);
             redirectAttributes.addFlashAttribute("missingUserId", true);
             return "redirect:/user/home";
         }
@@ -87,7 +87,7 @@ public class UserController {
             model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/user/user-update";
         } catch (NoSuchElementException e) {
-            log.debug("can't update missing user with id : " + id);
+            log.error("can't update missing user with id : " + id);
             redirectAttributes.addFlashAttribute("missingUserId", true);
             return "redirect:/user/home";
         }
@@ -124,7 +124,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("rightCreatedUser", true);
             return "redirect:/user/admin/list";
         } catch (EntityExistsException e) {
-            log.debug("user not created because username already exists : " + userEntity.getUserName());
+            log.error("user not created because username already exists : " + userEntity.getUserName());
             model.addAttribute("wrongCreatedUser", true);
             model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/user/admin/add";
@@ -141,7 +141,7 @@ public class UserController {
             model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/user/admin/update";
         } catch (NoSuchElementException e) {
-            log.debug("can't update missing user with id : " + id);
+            log.error("can't update missing user with id : " + id);
             redirectAttributes.addFlashAttribute("missingUserId", true);
             return "redirect:/user/admin/list";
         }
@@ -166,7 +166,7 @@ public class UserController {
             model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/user/admin/update";
         } catch (NoSuchElementException e) {
-            log.debug("can't update missing user with id : " + id);
+            log.error("can't update missing user with id : " + id);
             redirectAttributes.addFlashAttribute("missingUserId", true);
             return "redirect:/user/admin/list";
         }
@@ -180,7 +180,7 @@ public class UserController {
             log.debug("user deleted with id : " + id);
             redirectAttributes.addFlashAttribute("rightDeletedUser", true);
         } catch (NoSuchElementException e) {
-            log.debug("can't delete missing user with id : " + id);
+            log.error("can't delete missing user with id : " + id);
             redirectAttributes.addFlashAttribute("missingUserId", true);
         }
         return "redirect:/user/admin/list";

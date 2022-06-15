@@ -56,7 +56,7 @@ public class RatingController {
             redirectAttributes.addFlashAttribute("rightCreatedRating", true);
             return "redirect:/rating/list";
         } catch (EntityExistsException e) {
-            log.debug("rating not created because account already exists : " + ratingEntity.getOrderNumber());
+            log.error("rating not created because account already exists : " + ratingEntity.getOrderNumber());
             model.addAttribute("wrongCreatedRating", true);
             model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/rating/add";
@@ -73,7 +73,7 @@ public class RatingController {
             model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/rating/update";
         } catch (NoSuchElementException e) {
-            log.debug("can't update missing rating with id : " + id);
+            log.error("can't update missing rating with id : " + id);
             redirectAttributes.addFlashAttribute("missingRatingId", true);
             return "redirect:/rating/list";
         }
@@ -98,7 +98,7 @@ public class RatingController {
             model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/rating/update";
         } catch (NoSuchElementException e) {
-            log.debug("can't update missing rating with id : " + id);
+            log.error("can't update missing rating with id : " + id);
             redirectAttributes.addFlashAttribute("missingRatingId", true);
             return "redirect:/rating/list";
         }
@@ -112,7 +112,7 @@ public class RatingController {
             log.debug("rating deleted with id : " + id);
             redirectAttributes.addFlashAttribute("rightDeletedRating", true);
         } catch (NoSuchElementException e) {
-            log.debug("can't delete missing rating with id : " + id);
+            log.error("can't delete missing rating with id : " + id);
             redirectAttributes.addFlashAttribute("missingRatingId", true);
         }
         return "redirect:/rating/list";

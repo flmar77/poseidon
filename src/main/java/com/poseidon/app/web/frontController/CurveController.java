@@ -56,7 +56,7 @@ public class CurveController {
             redirectAttributes.addFlashAttribute("rightCreatedCurve", true);
             return "redirect:/curve/list";
         } catch (EntityExistsException e) {
-            log.debug("curve not created because account already exists : " + curveEntity.getCurveId());
+            log.error("curve not created because account already exists : " + curveEntity.getCurveId());
             model.addAttribute("wrongCreatedCurve", true);
             model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/curve/add";
@@ -73,7 +73,7 @@ public class CurveController {
             model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/curve/update";
         } catch (NoSuchElementException e) {
-            log.debug("can't update missing curve with id : " + id);
+            log.error("can't update missing curve with id : " + id);
             redirectAttributes.addFlashAttribute("missingCurveId", true);
             return "redirect:/curve/list";
         }
@@ -98,7 +98,7 @@ public class CurveController {
             model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/curve/update";
         } catch (NoSuchElementException e) {
-            log.debug("can't update missing curve with id : " + id);
+            log.error("can't update missing curve with id : " + id);
             redirectAttributes.addFlashAttribute("missingCurveId", true);
             return "redirect:/curve/list";
         }
@@ -112,7 +112,7 @@ public class CurveController {
             log.debug("curve deleted with id : " + id);
             redirectAttributes.addFlashAttribute("rightDeletedCurve", true);
         } catch (NoSuchElementException e) {
-            log.debug("can't delete missing curve with id : " + id);
+            log.error("can't delete missing curve with id : " + id);
             redirectAttributes.addFlashAttribute("missingCurveId", true);
         }
         return "redirect:/curve/list";

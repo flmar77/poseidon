@@ -56,7 +56,7 @@ public class RuleController {
             redirectAttributes.addFlashAttribute("rightCreatedRule", true);
             return "redirect:/rule/list";
         } catch (EntityExistsException e) {
-            log.debug("rule not created because account already exists : " + ruleEntity.getName());
+            log.error("rule not created because account already exists : " + ruleEntity.getName());
             model.addAttribute("wrongCreatedRule", true);
             model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/rule/add";
@@ -73,7 +73,7 @@ public class RuleController {
             model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/rule/update";
         } catch (NoSuchElementException e) {
-            log.debug("can't update missing rule with id : " + id);
+            log.error("can't update missing rule with id : " + id);
             redirectAttributes.addFlashAttribute("missingRuleId", true);
             return "redirect:/rule/list";
         }
@@ -98,7 +98,7 @@ public class RuleController {
             model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/rule/update";
         } catch (NoSuchElementException e) {
-            log.debug("can't update missing rule with id : " + id);
+            log.error("can't update missing rule with id : " + id);
             redirectAttributes.addFlashAttribute("missingRuleId", true);
             return "redirect:/rule/list";
         }
@@ -112,7 +112,7 @@ public class RuleController {
             log.debug("rule deleted with id : " + id);
             redirectAttributes.addFlashAttribute("rightDeletedRule", true);
         } catch (NoSuchElementException e) {
-            log.debug("can't delete missing rule with id : " + id);
+            log.error("can't delete missing rule with id : " + id);
             redirectAttributes.addFlashAttribute("missingRuleId", true);
         }
         return "redirect:/rule/list";
