@@ -100,7 +100,7 @@ public class VisitorController {
             redirectAttributes.addFlashAttribute("rightCreatedUser", true);
             return "redirect:/user/home";
         } catch (EntityExistsException e) {
-            log.debug("user not created because username already exists : " + userEntity.getUserName());
+            log.error("user not created because username already exists : " + userEntity.getUserName());
             model.addAttribute("wrongCreatedUser", true);
             return "/create-account";
         }

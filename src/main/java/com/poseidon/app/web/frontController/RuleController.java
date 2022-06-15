@@ -1,9 +1,11 @@
 package com.poseidon.app.web.frontController;
 
 import com.poseidon.app.dal.entity.RuleEntity;
+import com.poseidon.app.domain.helper.UserHelper;
 import com.poseidon.app.domain.service.RuleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,15 +27,17 @@ public class RuleController {
     private RuleService ruleService;
 
     @GetMapping("/rule/list")
-    public String getRuleList(Model model) {
+    public String getRuleList(Model model, Authentication authentication) {
         log.debug("get all rules");
         model.addAttribute("ruleEntities", ruleService.getAllRules());
+        model.addAttribute("username", UserHelper.getUserName(authentication));
         return "/rule/list";
     }
 
     @GetMapping("/rule/add")
-    public String getRuleAdd(Model model) {
+    public String getRuleAdd(Model model, Authentication authentication) {
         model.addAttribute("ruleEntity", new RuleEntity());
+        model.addAttribute("username", UserHelper.getUserName(authentication));
         return "/rule/add";
     }
 
@@ -41,8 +45,9 @@ public class RuleController {
     public String postRuleAdd(@Valid @ModelAttribute RuleEntity ruleEntity,
                               BindingResult result,
                               RedirectAttributes redirectAttributes,
-                              Model model) {
+                              Model model, Authentication authentication) {
         if (result.hasErrors()) {
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/rule/add";
         }
         try {
@@ -51,8 +56,9 @@ public class RuleController {
             redirectAttributes.addFlashAttribute("rightCreatedRule", true);
             return "redirect:/rule/list";
         } catch (EntityExistsException e) {
-            log.debug("rule not created because account already exists : " + ruleEntity.getName());
+            log.error("rule not created because account already exists : " + ruleEntity.getName());
             model.addAttribute("wrongCreatedRule", true);
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/rule/add";
         }
     }
@@ -60,13 +66,14 @@ public class RuleController {
     @GetMapping("/rule/update/{id}")
     public String getRuleUpdate(@PathVariable("id") Integer id,
                                 Model model,
-                                RedirectAttributes redirectAttributes) {
+                                RedirectAttributes redirectAttributes, Authentication authentication) {
         try {
             RuleEntity ruleEntity = ruleService.getRuleById(id);
             model.addAttribute("ruleEntity", ruleEntity);
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/rule/update";
         } catch (NoSuchElementException e) {
-            log.debug("can't update missing rule with id : " + id);
+            log.error("can't update missing rule with id : " + id);
             redirectAttributes.addFlashAttribute("missingRuleId", true);
             return "redirect:/rule/list";
         }
@@ -77,8 +84,9 @@ public class RuleController {
                                  @Valid @ModelAttribute RuleEntity ruleEntity,
                                  BindingResult result,
                                  Model model,
-                                 RedirectAttributes redirectAttributes) {
+                                 RedirectAttributes redirectAttributes, Authentication authentication) {
         if (result.hasErrors()) {
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/rule/update";
         }
 
@@ -87,9 +95,10 @@ public class RuleController {
             RuleEntity ruleEntitySaved = ruleService.updateRule(ruleEntity);
             log.debug("rule updated with id : " + ruleEntitySaved.getId());
             model.addAttribute("rightUpdatedRule", true);
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/rule/update";
         } catch (NoSuchElementException e) {
-            log.debug("can't update missing rule with id : " + id);
+            log.error("can't update missing rule with id : " + id);
             redirectAttributes.addFlashAttribute("missingRuleId", true);
             return "redirect:/rule/list";
         }
@@ -103,7 +112,7 @@ public class RuleController {
             log.debug("rule deleted with id : " + id);
             redirectAttributes.addFlashAttribute("rightDeletedRule", true);
         } catch (NoSuchElementException e) {
-            log.debug("can't delete missing rule with id : " + id);
+            log.error("can't delete missing rule with id : " + id);
             redirectAttributes.addFlashAttribute("missingRuleId", true);
         }
         return "redirect:/rule/list";

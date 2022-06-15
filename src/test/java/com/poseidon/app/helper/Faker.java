@@ -8,7 +8,7 @@ public abstract class Faker {
         UserEntity userEntity = new UserEntity();
         userEntity.setId(1);
         userEntity.setUserName("userNameTest");
-        userEntity.setPassword("passwordTest");
+        userEntity.setPassword("passwordTest1!");
         userEntity.setFullName("fullNameTest");
         userEntity.setRole("USER");
         return userEntity;

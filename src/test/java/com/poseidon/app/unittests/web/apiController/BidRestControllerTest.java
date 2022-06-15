@@ -156,6 +156,18 @@ public class BidRestControllerTest {
     }
 
     @Test
+    public void should_notUpdateBid_whenPutDuplicatedBid() throws Exception {
+        when(bidService.updateBid(any())).thenThrow(EntityExistsException.class);
+        String inputJson = new ObjectMapper().writeValueAsString(Faker.getFakeBidEntity());
+
+        mockMvc.perform(put("/api/bid/1")
+                        .content(inputJson)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
     public void should_deleteBid_whenDeleteExistingBid() throws Exception {
         mockMvc.perform(delete("/api/bid/1"))
                 .andExpect(status().isOk());

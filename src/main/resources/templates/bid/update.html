@@ -25,6 +25,8 @@
         <div class="text-center">
             <h2 class="p-1">Update Bid</h2>
             <h3 th:if="${rightUpdatedBid}" class="text-success p-1">Bid has been successfully updated</h3>
+            <h3 th:if="${wrongUpdatedBid}" class="text-danger p-1">Bid has not been updated because of duplicated
+                account</h3>
         </div>
 
         <div class="w-100 m-auto">

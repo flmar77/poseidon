@@ -172,6 +172,19 @@ public class BidControllerTest {
 
     @Test
     @WithMockUser
+    public void should_notUpdateBid_whenPostDuplicatedBidUpdate() throws Exception {
+        when(bidService.updateBid((any(BidEntity.class)))).thenThrow(EntityExistsException.class);
+
+        mockMvc.perform(post("/bid/update/1")
+                        .with(csrf())
+                        .flashAttr("bidEntity", Faker.getFakeBidEntity()))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.model().attribute("wrongUpdatedBid", true))
+                .andExpect(view().name("/bid/update"));
+    }
+
+    @Test
+    @WithMockUser
     public void should_deleteBid_whenGetExistingBidDelete() throws Exception {
         mockMvc.perform(get("/bid/delete/1")
                         .with(csrf()))

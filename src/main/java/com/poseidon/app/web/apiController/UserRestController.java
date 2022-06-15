@@ -61,7 +61,7 @@ public class UserRestController {
             log.debug("successfully post user");
             return ResponseEntity.status(HttpStatus.CREATED).body(userEntitySaved);
         } catch (EntityExistsException e) {
-            String logAndBodyMessage = "error while posting user because already existing user with account=" + userEntity.getUserName();
+            String logAndBodyMessage = "error while posting user because already existing user with userName=" + userEntity.getUserName();
             log.error(logAndBodyMessage);
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(logAndBodyMessage);
         }

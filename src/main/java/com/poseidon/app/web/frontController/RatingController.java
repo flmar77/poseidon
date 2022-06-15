@@ -1,9 +1,11 @@
 package com.poseidon.app.web.frontController;
 
 import com.poseidon.app.dal.entity.RatingEntity;
+import com.poseidon.app.domain.helper.UserHelper;
 import com.poseidon.app.domain.service.RatingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,15 +27,17 @@ public class RatingController {
     private RatingService ratingService;
 
     @GetMapping("/rating/list")
-    public String getRatingList(Model model) {
+    public String getRatingList(Model model, Authentication authentication) {
         log.debug("get all ratings");
         model.addAttribute("ratingEntities", ratingService.getAllRatings());
+        model.addAttribute("username", UserHelper.getUserName(authentication));
         return "/rating/list";
     }
 
     @GetMapping("/rating/add")
-    public String getRatingAdd(Model model) {
+    public String getRatingAdd(Model model, Authentication authentication) {
         model.addAttribute("ratingEntity", new RatingEntity());
+        model.addAttribute("username", UserHelper.getUserName(authentication));
         return "/rating/add";
     }
 
@@ -41,8 +45,9 @@ public class RatingController {
     public String postRatingAdd(@Valid @ModelAttribute RatingEntity ratingEntity,
                                 BindingResult result,
                                 RedirectAttributes redirectAttributes,
-                                Model model) {
+                                Model model, Authentication authentication) {
         if (result.hasErrors()) {
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/rating/add";
         }
         try {
@@ -51,8 +56,9 @@ public class RatingController {
             redirectAttributes.addFlashAttribute("rightCreatedRating", true);
             return "redirect:/rating/list";
         } catch (EntityExistsException e) {
-            log.debug("rating not created because account already exists : " + ratingEntity.getOrderNumber());
+            log.error("rating not created because account already exists : " + ratingEntity.getOrderNumber());
             model.addAttribute("wrongCreatedRating", true);
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/rating/add";
         }
     }
@@ -60,13 +66,14 @@ public class RatingController {
     @GetMapping("/rating/update/{id}")
     public String getRatingUpdate(@PathVariable("id") Integer id,
                                   Model model,
-                                  RedirectAttributes redirectAttributes) {
+                                  RedirectAttributes redirectAttributes, Authentication authentication) {
         try {
             RatingEntity ratingEntity = ratingService.getRatingById(id);
             model.addAttribute("ratingEntity", ratingEntity);
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/rating/update";
         } catch (NoSuchElementException e) {
-            log.debug("can't update missing rating with id : " + id);
+            log.error("can't update missing rating with id : " + id);
             redirectAttributes.addFlashAttribute("missingRatingId", true);
             return "redirect:/rating/list";
         }
@@ -77,8 +84,9 @@ public class RatingController {
                                    @Valid @ModelAttribute RatingEntity ratingEntity,
                                    BindingResult result,
                                    Model model,
-                                   RedirectAttributes redirectAttributes) {
+                                   RedirectAttributes redirectAttributes, Authentication authentication) {
         if (result.hasErrors()) {
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/rating/update";
         }
 
@@ -87,9 +95,10 @@ public class RatingController {
             RatingEntity ratingEntitySaved = ratingService.updateRating(ratingEntity);
             log.debug("rating updated with id : " + ratingEntitySaved.getId());
             model.addAttribute("rightUpdatedRating", true);
+            model.addAttribute("username", UserHelper.getUserName(authentication));
             return "/rating/update";
         } catch (NoSuchElementException e) {
-            log.debug("can't update missing rating with id : " + id);
+            log.error("can't update missing rating with id : " + id);
             redirectAttributes.addFlashAttribute("missingRatingId", true);
             return "redirect:/rating/list";
         }
@@ -103,7 +112,7 @@ public class RatingController {
             log.debug("rating deleted with id : " + id);
             redirectAttributes.addFlashAttribute("rightDeletedRating", true);
         } catch (NoSuchElementException e) {
-            log.debug("can't delete missing rating with id : " + id);
+            log.error("can't delete missing rating with id : " + id);
             redirectAttributes.addFlashAttribute("missingRatingId", true);
         }
         return "redirect:/rating/list";

@@ -20,9 +20,7 @@ public class BidService {
     }
 
     public BidEntity createBid(BidEntity bidEntity) throws EntityExistsException {
-        if (bidRepository.findByAccount(bidEntity.getAccount()).isPresent()) {
-            throw new EntityExistsException();
-        }
+        checkUniqueness(bidEntity.getAccount());
         return saveBid(bidEntity);
     }
 
@@ -31,8 +29,9 @@ public class BidService {
                 .orElseThrow(NoSuchElementException::new);
     }
 
-    public BidEntity updateBid(BidEntity bidEntity) throws NoSuchElementException {
+    public BidEntity updateBid(BidEntity bidEntity) throws NoSuchElementException, EntityExistsException {
         checkExistenceOfBidById(bidEntity.getId());
+        checkUniqueness(bidEntity.getAccount());
         return saveBid(bidEntity);
     }
 
@@ -44,6 +43,12 @@ public class BidService {
     private void checkExistenceOfBidById(Integer id) {
         bidRepository.findById(id)
                 .orElseThrow(NoSuchElementException::new);
+    }
+
+    private void checkUniqueness(String fieldToCheck) {
+        if (bidRepository.findByAccount(fieldToCheck).isPresent()) {
+            throw new EntityExistsException();
+        }
     }
 
     private BidEntity saveBid(BidEntity bidEntityToSave) {
