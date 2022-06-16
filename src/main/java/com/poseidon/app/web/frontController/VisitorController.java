@@ -25,7 +25,7 @@ import java.util.Map;
 public class VisitorController {
 
     private static final String authorizationRequestBaseUri = "oauth2/authorization";
-    Map<String, String> oauth2AuthenticationUrls = new HashMap<>();
+    final Map<String, String> oauth2AuthenticationUrls = new HashMap<>();
 
     @Autowired
     private ClientRegistrationRepository clientRegistrationRepository;
@@ -43,13 +43,12 @@ public class VisitorController {
     public String login(Model model) {
         log.debug("get login");
 
-        // TODO : improve ?
         Iterable<ClientRegistration> clientRegistrations = null;
         ResolvableType resolvableType = ResolvableType.forInstance(clientRegistrationRepository).as(Iterable.class);
         if (resolvableType != ResolvableType.NONE && ClientRegistration.class.isAssignableFrom(resolvableType.resolveGenerics()[0])) {
+            //noinspection unchecked
             clientRegistrations = (Iterable<ClientRegistration>) clientRegistrationRepository;
         }
-
         if (clientRegistrations != null) {
             clientRegistrations.forEach(registration ->
                     oauth2AuthenticationUrls.put(registration.getClientName(),
