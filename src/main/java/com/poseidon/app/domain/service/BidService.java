@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityExistsException;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class BidService {
@@ -20,7 +21,9 @@ public class BidService {
     }
 
     public BidEntity createBid(BidEntity bidEntity) throws EntityExistsException {
-        checkUniqueness(bidEntity.getAccount());
+        if (bidRepository.findByAccount(bidEntity.getAccount()).isPresent()) {
+            throw new EntityExistsException();
+        }
         return saveBid(bidEntity);
     }
 
@@ -31,7 +34,14 @@ public class BidService {
 
     public BidEntity updateBid(BidEntity bidEntity) throws NoSuchElementException, EntityExistsException {
         checkExistenceOfBidById(bidEntity.getId());
-        checkUniqueness(bidEntity.getAccount());
+
+        Optional<BidEntity> optionalBidEntity = bidRepository.findByAccount(bidEntity.getAccount());
+        if (optionalBidEntity.isPresent()) {
+            if (!optionalBidEntity.get().getId().equals(bidEntity.getId())) {
+                throw new EntityExistsException();
+            }
+        }
+
         return saveBid(bidEntity);
     }
 
@@ -43,12 +53,6 @@ public class BidService {
     private void checkExistenceOfBidById(Integer id) {
         bidRepository.findById(id)
                 .orElseThrow(NoSuchElementException::new);
-    }
-
-    private void checkUniqueness(String fieldToCheck) {
-        if (bidRepository.findByAccount(fieldToCheck).isPresent()) {
-            throw new EntityExistsException();
-        }
     }
 
     private BidEntity saveBid(BidEntity bidEntityToSave) {

@@ -57,7 +57,8 @@
                 <div class="form-group p-1">
                     <div class="d-flex justify-content-between">
                         <!--suppress HtmlUnknownTarget -->
-                        <a class="btn btn-danger w-25" href="/bid/list">Cancel</a>
+                        <a th:if="${rightUpdatedBid}" class="btn btn-success w-25" href="/bid/list">Return</a>
+                        <a th:unless="${rightUpdatedBid}" class="btn btn-danger w-25" href="/bid/list">Cancel</a>
                         <input class="btn btn-primary w-50" type="submit" value="Update Bid"/>
                     </div>
                 </div>
